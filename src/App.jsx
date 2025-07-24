@@ -1,6 +1,6 @@
-import HomePage from '../components/homePage'
-import NavBar from '../components/navBar'
-import FavoritesPage from '../components/favorites'
+import HomePage from '../components/HomePage'
+import NavBar from '../components/NavBar'
+import FavoritesPage from '../components/Favorites'
 import axios from 'axios';
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
