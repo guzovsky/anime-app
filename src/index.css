@@ -9,7 +9,7 @@
     box-sizing: border-box; /* Crucial for consistent layout */
 }
 
-/* 2. Document & Root Element Defaults */
+/* 2. Document & Root Element Defaults. */
 html {
     font-family: 'Poppins', 'Roboto', sans-serif;
     font-size: 100%; /* Base for REM units, accessible */
