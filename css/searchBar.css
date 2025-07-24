@@ -1,0 +1,19 @@
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 50rem;
+    padding: 0 1rem;
+    margin: 0 auto;
+}
+
+.search-btn {
+    color: white;
+    background-color: black;
+    padding: 0.6rem 0.3rem;
+}
+
+input {
+    outline: none;
+    padding: 0.8rem 0.5rem;
+}

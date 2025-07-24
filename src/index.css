@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap');
+
+/* 1. Base Reset & Box Sizing */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Crucial for consistent layout */
+}
+
+/* 2. Document & Root Element Defaults */
+html {
+    font-family: 'Poppins', 'Roboto', sans-serif;
+    font-size: 100%; /* Base for REM units, accessible */
+    line-height: 1.5; /* Good for readability */
+    -webkit-font-smoothing: antialiased; /* macOS font rendering */
+    -moz-osx-font-smoothing: grayscale; /* Firefox font rendering */
+    scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+    text-rendering: optimizeLegibility; /* Can improve font rendering in some browsers */
+}
+
+/* 3. Body Styling & Global Layout */
+body {
+    color: white;
+    background-color: #12141d;
+    overflow-x: hidden; /* Prevents horizontal scroll from accidental overflows */
+    overflow-wrap: break-word; /* Prevents long words/URLs from breaking layout */
+}
+
+/* Lists */
+ul, ol {
+    list-style: none; /* Remove default list bullets/numbers */
+}
+
+/* Media Defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block; /* Removes extra space below inline elements */
+    max-width: 100%; /* Ensures responsiveness */
+    height: auto; /* Maintains aspect ratio */
+}
+
+/* Form Elements */
+input,
+button,
+textarea,
+select {
+    font: inherit; /* Crucial for consistent font inheritance */
+    line-height: 1.15; /* or match html/body */
+}
+
+/* Button Improvements */
+button {
+    cursor: pointer; /* Indicates interactivity */
+    background-color: transparent;
+    border: none;
+}
+
+/* Anchor Tag Improvements */
+a {
+    text-decoration: none; /* Remove default underline */
+    color: inherit; /* Inherit color from parent */
+    cursor: pointer; /* Consistent clickable cursor */
+}
+
+/* Accessibility: Hide content visually but keep it for screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
