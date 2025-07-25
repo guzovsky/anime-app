@@ -1,6 +1,7 @@
 import HomePage from '../components/HomePage'
 import NavBar from '../components/NavBar'
 import FavoritesPage from '../components/Favorites'
+import AnimeInformation from '../components/AnimeInformation';
 import axios from 'axios';
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -59,6 +60,7 @@ function App() {
           />
         }
         />
+        <Route path="/anime/:id" element={<AnimeInformation />} />
       </Routes>
     </Router>
   );

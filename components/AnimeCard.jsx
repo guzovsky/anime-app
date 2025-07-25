@@ -1,14 +1,16 @@
+import { Link } from "react-router-dom";
+
 function AnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true }) {
     return (
         <div className="anime-card">
-            <div className="anime-image">
+            <Link to={`/anime/${anime.mal_id}`} className="anime-image">
                 <img src={anime.images.jpg.image_url} alt={anime.title} />
                 <div className="status-badge">{anime.status}</div>
                 <div className="info-line mobile-info-line">
                     <p>{anime.season ? anime.season.charAt(0).toUpperCase() + anime.season.slice(1) : 'Unknown'} {anime.year || ''}</p>
                     <p>{anime.episodes || 'Unknown'} episodes</p>
                 </div>
-            </div>
+            </Link>
 
             <div className="anime-details">
                 <h2 className="anime-title">{anime.title}</h2>
