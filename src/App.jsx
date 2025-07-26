@@ -3,11 +3,12 @@ import NavBar from '../components/NavBar'
 import FavoritesPage from '../components/Favorites'
 import AnimeInformation from '../components/AnimeInformation';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   const [animeList, setAnimeList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [favorites, setFavorites] = useState(
     JSON.parse(localStorage.getItem('favorites')) || []
@@ -28,13 +29,37 @@ function App() {
   }
 
   const handleSearch = async (query) => {
+    if (!query.trim()) {
+      setAnimeList([]);
+      return;
+    }
+
+    setIsLoading(true)
     try {
       const response = await axios.get(`https://api.jikan.moe/v4/anime?q=${query}`);
       setAnimeList(response.data.data || []);
+      setIsLoading(false)
     } catch (error) {
       console.error('Error fetching anime:', error);
+      setIsLoading(false)
     }
   };
+
+
+  const [topAnime, setTopAnime] = useState([]);
+
+  useEffect(() => {
+    const fetchTopAnime = async () => {
+      try {
+        const response = await axios.get('https://api.jikan.moe/v4/top/anime?filter=airing');
+        setTopAnime(response.data.data || []);
+      } catch (error) {
+        console.error('Error fetching top anime:', error);
+      }
+    };
+
+    fetchTopAnime();
+  }, []);
 
 
   return (
@@ -45,6 +70,8 @@ function App() {
           path="/"
           element={
             <HomePage
+              topAnime={topAnime}
+              isLoading={isLoading}
               onSearch={handleSearch}
               animeList={animeList}
               handleAddToFavorites={handleAddToFavorites}

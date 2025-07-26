@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "axios": "^1.10.0",
+    "imagesloaded": "^5.0.0",
     "lucide-react": "^0.525.0",
+    "masonry-layout": "^4.2.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.7.0"

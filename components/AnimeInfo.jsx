@@ -2,7 +2,7 @@ export function AnimeInfo({ anime, title, info }) {
   return (
     <div>
       <h3>{title}:</h3>
-      <p>{anime[info] !== undefined && anime[info] !== null ? anime[info] : "N/A"}</p>
+      <p>{anime[info] || "N/A"}</p>
     </div>
   );
 };
@@ -74,4 +74,13 @@ export function FormatDate(dateString) {
     minute: '2-digit',
     hour12: false,
   }).replace(/\//g, '-');
+}
+
+
+
+export function RemoveAutoPlay(url) {
+  if (!url) return '';
+  const cleanUrl = new URL(url);
+  cleanUrl.searchParams.delete('autoplay'); // remove autoplay param
+  return cleanUrl.toString();
 }

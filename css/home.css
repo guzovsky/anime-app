@@ -16,37 +16,30 @@ h1 {
 }
 
 .results-header {
-    width: 100%;
-    max-width: 49rem;
-    display: flex;
-    margin-top: 1.5rem;
-    justify-content: space-between;   
-    gap: 10px;
+    margin: 1.5rem 0;
     padding: 0 1rem;
 }
 
-.update-btn {
-    color: white;
-    font-size: 1.5rem;
-}
-
-.results {
-    column-count: 3;
-    column-gap: 1.5rem;
-    padding: 1rem;
-    max-width: 50rem;
+.masonry-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
     width: 100%;
-    gap: 1.5rem;
+    max-width: 60rem;
+    padding: 1rem;
+    margin: 0 auto;
 }
 
-@media (max-width: 600px) {
-    .results {
-        column-count: 2;
-    }
+.masonry-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex: 1;
+    min-width: 0;
 }
+
 
 .anime-card {
-    margin-top: 2rem;
     display: inline-block;
     width: 100%;
     background-color: #14151b;
@@ -166,9 +159,24 @@ h1 {
     display: none;
 }
 
+.video-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+.video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
 @media (max-width: 400px) {
-    .results {
-        column-count: 1;
+    .masonry-container {
+        flex-direction: column;
+    }
+
+    .masonry-column {
+        width: 100%;
     }
 
     .anime-card {

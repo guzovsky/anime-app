@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import '../css/animeInformation.css';
-import { AnimeInfo, InfoList, FormatDate, RelationsList } from "./AnimeInfo";
+import { AnimeInfo, InfoList, FormatDate, RelationsList, RemoveAutoPlay } from "./AnimeInfo";
 
 
 function AnimeInformation() {
@@ -105,12 +105,17 @@ function AnimeInformation() {
 
                     <div>
                         <h2>External Links:</h2>
-                        <iframe
-                            src={anime.trailer.embed_url}
-                            title="Anime Trailer"
-                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                        ></iframe>
+
+                        {anime.trailer.embed_url ? (
+                            <div className="video-wrapper">
+                                <iframe
+                                    src={RemoveAutoPlay(anime.trailer.embed_url)}
+                                    title="Anime Trailer"
+                                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                ></iframe>
+                            </div>
+                        ) : (<p>N/A</p>)}
                     </div>
 
                 </div>
