@@ -1,13 +1,25 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import axios from "axios";
-import '../css/animeInformation.css';
-import { AnimeInfo, InfoList, FormatDate, RelationsList, RemoveAutoPlay } from "./AnimeInfo";
-
+import '../styles/animeInformation.css';
+import { removeAutoPlay } from '../components/utils/urlUtils';
+import { AnimeInfo, InfoList, RelationsList } from '../components/AnimeInfo';
+import { formatDate } from "../components/utils/dateUtils";
+import AnimeContext from "../contexts/AnimeContext";
 
 function AnimeInformation() {
+    const {
+        setAnimeCardIsOpen,
+        handleAddToFavorites,
+        isFavorite
+    } = useContext(AnimeContext)
+
     const { id } = useParams();
     const [anime, setAnime] = useState(null);
+
+    useEffect(() => {
+        setAnimeCardIsOpen(id);
+    }, [id]);
 
     useEffect(() => {
         const fetchAnime = async () => {
@@ -21,7 +33,9 @@ function AnimeInformation() {
         fetchAnime();
     }, [id]);
 
-    if (!anime) return <p>Loading...</p>;
+    if (!anime) return <p className="loading-msg">Loading...</p>;
+
+    const showAddButton = true
 
     return (
 
@@ -39,6 +53,18 @@ function AnimeInformation() {
                         alt={anime.title}
                         className="anime-info-image"
                     />
+                </div>
+
+                <div className="favorite-btn-container">
+                    {isFavorite(anime) ? (
+                        <button onClick={() => handleAddToFavorites(anime)} className="remove-btn">
+                            Remove from Favorites
+                        </button>
+                    ) : (
+                        <button onClick={() => handleAddToFavorites(anime)} className="add-btn">
+                            Add to Favorites
+                        </button>
+                    )}
                 </div>
 
                 <div className="anime-info-details">
@@ -84,8 +110,8 @@ function AnimeInformation() {
                         <h2>Dates:</h2>
                         <div>
                             <h3>Aired:</h3>
-                            <p><strong>From: </strong>{FormatDate(anime.aired.from)} (JST)</p>
-                            <p><strong>To: </strong>{FormatDate(anime.aired.to)}</p>
+                            <p><strong>From: </strong>{formatDate(anime.aired.from)} (JST)</p>
+                            <p><strong>To: </strong>{formatDate(anime.aired.to)}</p>
                         </div>
                         <div>
                             <h3>Broadcast:</h3>
@@ -109,7 +135,7 @@ function AnimeInformation() {
                         {anime.trailer.embed_url ? (
                             <div className="video-wrapper">
                                 <iframe
-                                    src={RemoveAutoPlay(anime.trailer.embed_url)}
+                                    src={removeAutoPlay(anime.trailer.embed_url)}
                                     title="Anime Trailer"
                                     allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     allowFullScreen

@@ -1,9 +1,13 @@
+import { useContext } from "react";
+import AnimeContext from "../contexts/AnimeContext";
 import { Link } from "react-router-dom";
 
 function AnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true }) {
+    const { setAnimeCardIsOpen } = useContext(AnimeContext);
+
     return (
         <div className="anime-card">
-            <Link to={`/anime/${anime.mal_id}`} className="anime-image">
+            <Link to={`/anime/${anime.mal_id}`} className="anime-image" onClick={() => setAnimeCardIsOpen(anime.mal_id)}>
                 <img src={anime.images.jpg.image_url} alt={anime.title} />
                 <div className="status-badge">{anime.status}</div>
                 <div className="info-line mobile-info-line">

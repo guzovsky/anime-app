@@ -1,7 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AnimeCard from "./AnimeCard";
+import AnimeContext from "../contexts/AnimeContext";
 
-function Results({ displayedAnime, isFavorite, handleAddToFavorites }) {
+function Results() {
+
+  const {
+    displayedAnime,
+    handleAddToFavorites,
+    isFavorite
+  } = useContext(AnimeContext)
+
   const [columnsCount, setColumnsCount] = useState(getColumnCount());
 
   function getColumnCount() {
