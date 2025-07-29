@@ -6,40 +6,47 @@ import '../styles/navBar.css';
 function NavBar() {
     const location = useLocation();
     const navigate = useNavigate();
-
-    const { animeList, animeCardIsOpen, resetSearch } = useContext(AnimeContext);
+    const {
+        animeCardIsOpen,
+        animeList,
+        resetSearch,
+        hasSearched,
+    } = useContext(AnimeContext);
 
     return (
-        <nav className="navbar">
-            <Link
-                to="/"
-                className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
-                onClick={(e) => {
-                    e.preventDefault();
-
-                    if (animeCardIsOpen) {
-                        if (location.pathname === `/anime/${animeCardIsOpen}`) {
-                            navigate(`/`);
-                        } else {
-                            navigate(`/anime/${animeCardIsOpen}`);
-                        }
-                    } else {
-                        if (animeList.length > 0) {
+        <div className="navbar-container">
+            <nav className="navbar">
+                <Link
+                    to="/"
+                    className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        if ((animeList.length > 0 || hasSearched) && location.pathname === '/') {
                             resetSearch();
                         }
-                        navigate('/');
-                    }
-                }}
-            >
-                Home
-            </Link>
-            <Link
-                to="/favorites"
-                className={`nav-link ${location.pathname === '/favorites' ? 'active' : ''}`}
-            >
-                Favorites
-            </Link>
-        </nav>
+                        navigate("/");
+                    }}
+                >
+                    Home
+                </Link>
+
+                {animeCardIsOpen && (
+                    <Link
+                        to={`/anime/${animeCardIsOpen}`}
+                        className={`nav-link ${location.pathname === `/anime/${animeCardIsOpen}` ? 'active' : ''}`}
+                    >
+                        Anime Info
+                    </Link>
+                )}
+
+                <Link
+                    to="/favorites"
+                    className={`nav-link ${location.pathname === '/favorites' ? 'active' : ''}`}
+                >
+                    Favorites
+                </Link>
+            </nav>
+        </div>
     );
 }
 

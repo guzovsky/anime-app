@@ -41,11 +41,10 @@ function FavoritesPage() {
 
   return (
     <div className="container">
-      <h1>Your Favorite Anime</h1>
       {favorites.length === 0 ? (
         <>
-          <h2>You don't have any favorite anime yet. Try adding some!</h2>
-          <h3>Here are some recommendations:</h3>
+          <h1>You don't have any favorite anime yet. Try adding some!</h1>
+          <h2 className="recommendations-title">Here are some recommendations:</h2>
           <div className="masonry-container">
             {columns2.map((column, colIndex) => (
               <div key={colIndex} className="masonry-column">
@@ -64,21 +63,24 @@ function FavoritesPage() {
         </>
 
       ) : (
-        <div className="masonry-container">
-          {columns.map((column, colIndex) => (
-            <div key={colIndex} className="masonry-column">
-              {column.map((anime) => (
-                <AnimeCard
-                  key={anime.mal_id}
-                  anime={anime}
-                  isFavorite={isFavorite}
-                  onFavoriteToggle={handleAddToFavorites}
-                  showAddButton={false}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
+        <>
+          <h1>Your Favorite Anime</h1>
+          <div className="masonry-container">
+            {columns.map((column, colIndex) => (
+              <div key={colIndex} className="masonry-column">
+                {column.map((anime) => (
+                  <AnimeCard
+                    key={anime.mal_id}
+                    anime={anime}
+                    isFavorite={isFavorite}
+                    onFavoriteToggle={handleAddToFavorites}
+                    showAddButton={false}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        </>
       )}
 
     </div>

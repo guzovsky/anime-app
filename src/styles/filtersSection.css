@@ -1,0 +1,134 @@
+.filters-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 60rem;
+    width: 100%;
+    gap: 1rem;
+    padding: 1rem;
+    color: #eee;
+}
+
+.select-elements-container {
+    display: grid;
+    width: 100%;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    justify-items: center;
+}
+
+
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.select-wrapper select {
+    appearance: none;
+    outline: none;
+    background-color: #1a1d2c;
+    color: #eee;
+    padding: 0.6rem 2.5rem 0.6rem 1rem;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 1rem;
+    transition: background-color 0.4s ease;
+    cursor: pointer;
+}
+
+.select-wrapper select:hover {
+    background-color: #212538;
+}
+
+.select-wrapper::after {
+    content: '▾';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ccc;
+    pointer-events: none;
+    transition: transform 0.3s ease;
+    font-size: 1rem;
+}
+
+.select-wrapper select:focus + ::after,
+.select-wrapper:focus-within::after {
+    transform: translateY(-50%) rotate(180deg);
+    color: #fff;
+}
+
+.filters-search-btn {
+    background-color: #1a1d2c;
+    color: #ffffff;
+    padding: 0.6rem 1.5rem;
+    border-radius: 10px;
+    transition: background-color 0.4s ease;
+}
+
+.filters-search-btn:hover {
+    background-color: #212538;
+}
+
+.sort-dropdown {
+    position: relative;
+}
+
+.sort-dropdown-toggle {
+    width: 100%;
+    background-color: #1a1d2c;
+    color: #eee;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s ease;
+}
+
+.sort-dropdown-toggle:hover {
+    background-color: #212538;
+}
+
+.sort-options-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #1a1d2c;
+    border-radius: 8px;
+    margin-top: 4px;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.sort-option {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    background: none;
+    border: none;
+    color: #eee;
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sort-option:hover,
+.sort-option.active {
+    background-color: #2b2f44;
+}
+
+
+@media (max-width: 799px) {
+    .select-elements-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 399px) {
+    .select-elements-container {
+        grid-template-columns: 1fr;
+    }
+}

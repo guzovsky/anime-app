@@ -7,7 +7,7 @@ function Results() {
   const {
     displayedAnime,
     handleAddToFavorites,
-    isFavorite
+    isFavorite,
   } = useContext(AnimeContext)
 
   const [columnsCount, setColumnsCount] = useState(getColumnCount());

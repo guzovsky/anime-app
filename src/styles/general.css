@@ -7,17 +7,24 @@
 h1 {
     margin: 2rem 0;
     padding: 0 1rem;
+    text-align: center;
 }
 
-@media (max-width: 300px) { 
-    h1 {
-        font-size: 1.6rem;
-    }
+.recommendations-title {
+    text-align: center;
+    padding: 0 1rem;
+    margin-top: -1rem;
+    margin-bottom: 1rem;
 }
 
 .results-header {
     margin: 1.5rem 0;
     padding: 0 1rem;
+}
+
+.no-results-message {
+    text-align: center;
+    margin: 0 1rem;
 }
 
 .masonry-container {
@@ -37,7 +44,6 @@ h1 {
     flex: 1;
     min-width: 0;
 }
-
 
 .anime-card {
     display: inline-block;

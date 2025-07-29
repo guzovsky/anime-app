@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import AnimeContext from "../contexts/AnimeContext";
+import FiltersSection from "./FiltersSection";
 
 function ResultsHeader() {
     const { isLoading, animeList } = useContext(AnimeContext);
@@ -11,9 +12,11 @@ function ResultsHeader() {
             : "Top Airing Anime";
 
     return (
-        <div className="results-header">
-            <h2>{headerText}</h2>
-        </div>
+        <>
+            <div className="results-header">
+                <h2>{headerText}</h2>
+            </div>
+        </>
     );
 }
 
