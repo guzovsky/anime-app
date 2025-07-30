@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import AnimeContext from "../contexts/AnimeContext";
-import FiltersSection from "./FiltersSection";
 
 function ResultsHeader() {
     const { isLoading, animeList } = useContext(AnimeContext);

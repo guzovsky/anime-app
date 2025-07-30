@@ -23,24 +23,6 @@
     width: 100%;
 }
 
-.select-wrapper select {
-    appearance: none;
-    outline: none;
-    background-color: #1a1d2c;
-    color: #eee;
-    padding: 0.6rem 2.5rem 0.6rem 1rem;
-    border: none;
-    border-radius: 8px;
-    width: 100%;
-    font-size: 1rem;
-    transition: background-color 0.4s ease;
-    cursor: pointer;
-}
-
-.select-wrapper select:hover {
-    background-color: #212538;
-}
-
 .select-wrapper::after {
     content: '▾';
     position: absolute;
@@ -53,7 +35,6 @@
     font-size: 1rem;
 }
 
-.select-wrapper select:focus + ::after,
 .select-wrapper:focus-within::after {
     transform: translateY(-50%) rotate(180deg);
     color: #fff;
@@ -64,18 +45,23 @@
     color: #ffffff;
     padding: 0.6rem 1.5rem;
     border-radius: 10px;
-    transition: background-color 0.4s ease;
+    transition: background-color 0.4s ease, opacity 0.4s ease;
 }
 
 .filters-search-btn:hover {
     background-color: #212538;
 }
 
-.sort-dropdown {
+.filters-search-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sort-dropdown, .custom-dropdown {
     position: relative;
 }
 
-.sort-dropdown-toggle {
+.sort-dropdown-toggle, .custom-dropdown-toggle {
     width: 100%;
     background-color: #1a1d2c;
     color: #eee;
@@ -88,11 +74,11 @@
     transition: background-color 0.3s ease;
 }
 
-.sort-dropdown-toggle:hover {
+.sort-dropdown-toggle:hover, .custom-dropdown-toggle:hover {
     background-color: #212538;
 }
 
-.sort-options-list {
+.sort-options-list, .custom-options-list {
     position: absolute;
     top: 100%;
     left: 0;
@@ -102,9 +88,30 @@
     margin-top: 4px;
     z-index: 10;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    max-height: 265px;
+    overflow-y: auto;
 }
 
-.sort-option {
+.custom-options-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.custom-options-list::-webkit-scrollbar-track {
+    border-radius: 8px;
+}
+
+.custom-options-list::-webkit-scrollbar-thumb {
+    background-color: #444a60;
+    border-radius: 8px;
+    border: 2px solid #1a1d2c;
+}
+
+.custom-options-list::-webkit-scrollbar-thumb:hover {
+    background-color: #5b6180;
+    cursor: pointer;
+}
+
+.sort-option, .custom-option {
     width: 100%;
     padding: 0.6rem 1rem;
     background: none;
@@ -116,7 +123,9 @@
 }
 
 .sort-option:hover,
-.sort-option.active {
+.custom-option:hover,
+.sort-option.active,
+.custom-option.active {
     background-color: #2b2f44;
 }
 

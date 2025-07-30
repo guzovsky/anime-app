@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import AnimeContext from "../contexts/AnimeContext";
 import '../styles/filtersSection.css';
+import CustomSelect from "./CustomSelect";
 
 const STATUS_OPTIONS = [
     { value: "", label: "Status" },
@@ -26,12 +27,14 @@ const SORT_OPTIONS = [
     { label: "End Date", value: "end_date" },
     { label: "Episodes", value: "episodes" },
     { label: "A-Z", value: "alphabetical" },
+    { label: "Popularity", value: "popularity" },
 ];
 
 function FiltersSection({ onSearch }) {
     const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
     const { animeGenres, filters, setFilters } = useContext(AnimeContext);
     const dropdownRef = useRef(null);
+    const isAllEmpty = [filters.query.trim(), filters.status, filters.type, filters.genre, filters.sort].every(val => val === "");
 
     const onFilterChange = (e) => {
         const { name, value } = e.target;
@@ -53,35 +56,35 @@ function FiltersSection({ onSearch }) {
     return (
         <div className="filters-container">
 
+
             <div className="select-elements-container">
-                <div className="select-wrapper">
-                    <select name="status" value={filters.status} onChange={onFilterChange}>
-                        {STATUS_OPTIONS.map(opt => (
-                            <option key={opt.value} value={opt.value}>{opt.label}</option>
-                        ))}
-                    </select>
-                </div>
+                <CustomSelect
+                    name="status"
+                    value={filters.status}
+                    onChange={onFilterChange}
+                    options={STATUS_OPTIONS}
+                />
 
-                <div className="select-wrapper">
-                    <select name="type" value={filters.type} onChange={onFilterChange}>
-                        {TYPE_OPTIONS.map(opt => (
-                            <option key={opt.value} value={opt.value}>{opt.label}</option>
-                        ))}
-                    </select>
-                </div>
+                <CustomSelect
+                    name="type"
+                    value={filters.type}
+                    onChange={onFilterChange}
+                    options={TYPE_OPTIONS}
+                />
 
-                <div className="select-wrapper">
-                    <select name="genre" value={filters.genre} onChange={onFilterChange}>
-                        <option value="">Genres</option>
-                        {[...animeGenres]
+                <CustomSelect
+                    name="genre"
+                    value={filters.genre}
+                    onChange={onFilterChange}
+                    options={[
+                        { label: "Genres", value: "" },
+                        ...animeGenres
                             .sort((a, b) => a.name.localeCompare(b.name))
-                            .map((genre) => (
-                                <option key={genre.mal_id} value={genre.mal_id}>
-                                    {genre.name}
-                                </option>
-                            ))}
-                    </select>
-                </div>
+                            .map((g) => ({ label: g.name, value: g.mal_id }))
+                    ]}
+                />
+
+
 
                 <div className="select-wrapper sort-dropdown" ref={dropdownRef}>
                     <button
@@ -91,8 +94,15 @@ function FiltersSection({ onSearch }) {
                         {filters.sort
                             ? SORT_OPTIONS.find((opt) => opt.value === filters.sort)?.label
                             : "Sort By"}{" "}
-                        {filters.sort &&
-                            (filters.order === "desc" ? "▾" : "▴")}
+                        {filters.sort
+                            ? filters.sort === "popularity"
+                                ? filters.order === "asc"
+                                    ? "▾"
+                                    : "▴"
+                                : filters.order === "asc"
+                                    ? "▴"
+                                    : "▾"
+                            : ""}
                     </button>
 
                     {sortDropdownOpen && (
@@ -114,11 +124,10 @@ function FiltersSection({ onSearch }) {
                                                 order: prev.order === "asc" ? "desc" : "asc",
                                             }));
                                         } else {
-                                            // Set new sort field
                                             setFilters((prev) => ({
                                                 ...prev,
                                                 sort: opt.value,
-                                                order: "desc",
+                                                order: opt.value === "popularity" ? "asc" : "desc", // 👈 default to ASC only for popularity
                                             }));
                                         }
                                         setSortDropdownOpen(false);
@@ -126,9 +135,15 @@ function FiltersSection({ onSearch }) {
                                 >
                                     {opt.label}{" "}
                                     {filters.sort === opt.value
-                                        ? filters.order === "asc"
-                                            ? "▴"
-                                            : "▾"
+                                        ? opt.value === ""
+                                            ? "" :
+                                            opt.value === "popularity"
+                                                ? filters.order === "asc"
+                                                    ? "▾"
+                                                    : "▴"
+                                                : filters.order === "asc"
+                                                    ? "▴"
+                                                    : "▾"
                                         : ""}
                                 </button>
                             ))}
@@ -138,7 +153,17 @@ function FiltersSection({ onSearch }) {
             </div>
 
             <div className="filters-search-btn-container">
-                <button className="filters-search-btn" onClick={onSearch}>Search</button>
+
+                <button
+                    className="filters-search-btn"
+                    disabled={isAllEmpty}
+                    onClick={() => {
+                        if (isAllEmpty) return;
+                        onSearch();
+                    }}
+                >
+                    Search
+                </button>
             </div>
         </div>
     );

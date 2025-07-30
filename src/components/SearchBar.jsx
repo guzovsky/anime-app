@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import '../styles/searchBar.css';
 
 function SearchBar({ filters, setFilters, onSearch }) {
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!filters.query.trim()) return
         onSearch();
     };
 

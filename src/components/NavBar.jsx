@@ -11,6 +11,8 @@ function NavBar() {
         animeList,
         resetSearch,
         hasSearched,
+        setCurrentPage,
+        setTotalPages
     } = useContext(AnimeContext);
 
     return (
@@ -21,10 +23,15 @@ function NavBar() {
                     className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
                     onClick={(e) => {
                         e.preventDefault();
-                        if ((animeList.length > 0 || hasSearched) && location.pathname === '/') {
+                        const isHome = location.pathname === "/";
+                        if ((animeList.length > 0 || hasSearched) && isHome) {
                             resetSearch();
+                            setCurrentPage(1);
+                            setTotalPages(1);
                         }
-                        navigate("/");
+                        if (!isHome) {
+                            navigate("/");
+                        }
                     }}
                 >
                     Home

@@ -28,6 +28,8 @@ function App() {
   const [animeCardIsOpen, setAnimeCardIsOpen] = useState(null);
   const [animeGenres, setAnimeGenres] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const [filters, setFilters] = useState({
     query: "",
@@ -52,37 +54,38 @@ function App() {
     localStorage.setItem('favorites', JSON.stringify(updated));
   };
 
-  const handleSearch = async ({ query, status, type, genre, sort }) => {
+  const handleSearch = async ({ query, status, type, genre, sort }, page = 1) => {
     setIsLoading(true);
     setHasSearched(true);
 
     const params = new URLSearchParams();
-
     if (query) params.append("q", query);
     if (status) params.append("status", status);
     if (type) params.append("type", type);
     if (genre) params.append("genres", genre);
-
     if (sort && sort !== "alphabetical") {
       params.append("order_by", sort);
       params.append("sort", filters.order);
     }
+    params.append("page", page);
+    params.append("limit", 21);
 
     try {
       const response = await axios.get(`https://api.jikan.moe/v4/anime?${params.toString()}`);
       let fetchedAnime = response.data.data || [];
-
       if (sort === "alphabetical") {
         fetchedAnime = sortAlphabetically(fetchedAnime);
       }
-
       setAnimeList(fetchedAnime);
+      setCurrentPage(response.data.pagination.current_page);
+      setTotalPages(response.data.pagination.last_visible_page);
     } catch (error) {
-      console.error('Error fetching anime:', error);
+      console.error("Error fetching anime:", error);
     } finally {
       setIsLoading(false);
     }
   };
+
 
   useEffect(() => {
     const fetchTopAnime = async () => {
@@ -142,7 +145,11 @@ function App() {
     filters,
     setFilters,
     hasSearched,
-    setHasSearched
+    setHasSearched,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    setTotalPages
   };
 
   return (

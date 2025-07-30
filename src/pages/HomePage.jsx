@@ -5,6 +5,7 @@ import SearchBar from "../components/SearchBar";
 import ResultsHeader from "../components/ResultsHeader";
 import Results from "../components/Results";
 import '../styles/general.css';
+import Pagination from "../components/Pagination";
 
 
 function HomePage() {
@@ -15,7 +16,9 @@ function HomePage() {
         animeList,
         filters,
         setFilters,
-        hasSearched
+        hasSearched,
+        currentPage,
+        totalPages,
     } = useContext(AnimeContext)
 
     useEffect(() => {
@@ -37,6 +40,8 @@ function HomePage() {
             ) : (
                 <Results />
             )}
+
+            <Pagination currentPage = {currentPage} totalPages={totalPages} handleSearch={handleSearch} filters={filters}/>
         </div>
     );
 }
