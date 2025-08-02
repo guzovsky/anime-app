@@ -19,6 +19,7 @@ function HomePage() {
         hasSearched,
         currentPage,
         totalPages,
+        setTopAnimePage,
     } = useContext(AnimeContext)
 
     useEffect(() => {
@@ -41,7 +42,26 @@ function HomePage() {
                 <Results />
             )}
 
-            <Pagination currentPage = {currentPage} totalPages={totalPages} handleSearch={handleSearch} filters={filters}/>
+            {hasSearched ? (
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    handleSearch={handleSearch}
+                    filters={filters}
+                    isLoading={isLoading}
+                />
+            ) : isLoading ? (
+                <p>Loading...</p>
+            ) : (
+                <div className="load-more-airing-anime">
+                    <button
+                        className="load-more-airing-anime-btn"
+                        onClick={() => setTopAnimePage(prev => prev + 1)}
+                    >
+                        Load More
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

@@ -5,6 +5,18 @@
     background-color: #000;
     padding: 1rem;
     text-align: center;
+    position: relative;
+}
+
+.side-bar-icon-container {
+    color: white;
+    position: absolute;
+    left: 2rem;
+    top: 1.4rem;
+}
+
+.side-bar-icon {
+    color: white;
 }
 
 .nav-link {
@@ -43,6 +55,17 @@
     font-weight: bold;
 }
 
+@media (max-width: 480px) {
+    .side-bar-icon-container {
+        left: 0;
+        top: 3.3rem;
+        background: #000;
+        padding: 0.3rem 0.5rem;
+        border-radius: 30%;
+    }
+}
+
+
 @media (max-width: 355px) { 
     .navbar {
         gap: 1.5rem;
@@ -59,4 +82,27 @@
     .nav-link.active {
         font-size: 1.1rem;
     }
+}
+
+
+.nav-link-anime-info-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.nav-link-anime-info-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.nav-link-anime-info-exit {
+    opacity: 1;
+    transform: translateY(0%);
+}
+
+.nav-link-anime-info-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 200ms ease, transform 200ms ease;
 }

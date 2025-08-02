@@ -137,13 +137,18 @@ h1 {
     padding: 0.8rem;
 }
 
-.add-btn, .pagination button {
+.add-btn, .pagination button, .load-more-airing-anime-btn {
     background-color: #2e86de;
     color: white;
     border: none;
     border-radius: 8px;
     padding: 0.4rem 0.8rem;
     cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.load-more-airing-anime-btn {
+    margin: 2rem 0;
     transition: background-color 0.2s ease;
 }
 
@@ -161,7 +166,7 @@ h1 {
     background-color: #a13838;
 }
 
-.add-btn:hover, .pagination button:hover {
+.add-btn:hover, .pagination button:hover, .load-more-airing-anime-btn:hover {
     background-color: #1b4f93;
 }
 
@@ -229,6 +234,8 @@ h1 {
     }
 
     .status-badge {
+        text-align: center;
+        font-size: 0.9rem;
         position: absolute;
         top: -4rem;
         left: 0;

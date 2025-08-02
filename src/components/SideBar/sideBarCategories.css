@@ -1,0 +1,162 @@
+.sidebar-category-container {
+    width: 270px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    container-type: inline-size;
+}
+
+.sidebar-category-title {
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.sidebar-category-title {
+    margin-top: 1rem;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.arrow {
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.sidebar-category-title.open .arrow {
+    transform: rotate(180deg);
+}
+
+.sidebar-card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sidebar-see-more-btn-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.sidebar-see-more-btn {
+    position: relative;
+    color: white;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.sidebar-see-more-btn::after {
+    content: "";
+    position: absolute;
+    top: 2rem;
+    left: -36px;
+    height: 1px;
+    width: 150px;
+    background-color: #4d4d4d;
+}
+
+.sidebar-anime-card {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: #14151b;
+    color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px #00000080;
+    transition: transform 0.2s ease;
+}
+
+.sidebar-anime-card:hover {
+    transform: translateY(-5px);
+}
+
+.sidebar-anime-image {
+    position: relative;
+    margin: auto 0 auto 0;
+    min-width: 70px;
+    width: 70px;
+    height: 102px;
+}
+
+.sidebar-anime-image img {
+    display: block;
+    border-radius: 12px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.sidebar-anime-details {
+    padding: 0.8rem 1rem;
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    gap: 0.4rem;
+    width: 100%;
+}
+
+.sidebar-anime-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.sidebar-favorite-btn-container {
+    font-size: 0.8rem;
+}
+
+.sidebar-add-btn {
+    background-color: #2e86de;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 100%;
+}
+
+.sidebar-remove-btn {
+    background-color: #ff5c5c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar-remove-btn:hover {
+    background-color: #a13838;
+}
+
+.sidebar-add-btn:hover {
+    background-color: #1b4f93;
+}
+
+.sidebar-slide-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.sidebar-slide-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+.sidebar-slide-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sidebar-slide-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}

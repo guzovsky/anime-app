@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AnimeContext from './contexts/AnimeContext';
+import SideBar from './components/SideBar/Sidebar';
 
 import HomePage from './pages/HomePage';
 import NavBar from './components/NavBar';
@@ -22,14 +23,24 @@ function sortAlphabetically(animeList) {
 }
 
 function App() {
-  const [animeList, setAnimeList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [topAnime, setTopAnime] = useState([]);
   const [animeCardIsOpen, setAnimeCardIsOpen] = useState(null);
+
+  const [animeList, setAnimeList] = useState([]);
+  const [topAnime, setTopAnime] = useState([]);
+  const [topUpcomingAnime, setTopUpcomingAnime] = useState([])
+  const [mostPopularAnime, setMostPopularAnime] = useState([])
   const [animeGenres, setAnimeGenres] = useState([]);
+
   const [hasSearched, setHasSearched] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [topAnimePage, setTopAnimePage] = useState(1);
+
+  const [searchCache, setSearchCache] = useState({});
+
 
   const [filters, setFilters] = useState({
     query: "",
@@ -54,7 +65,18 @@ function App() {
     localStorage.setItem('favorites', JSON.stringify(updated));
   };
 
+
   const handleSearch = async ({ query, status, type, genre, sort }, page = 1) => {
+    const cacheKey = `${query}-${status}-${type}-${genre}-${sort}-${filters.order}-${page}`;
+
+    if (searchCache[cacheKey]) {
+      setAnimeList(searchCache[cacheKey].anime);
+      setCurrentPage(searchCache[cacheKey].currentPage);
+      setTotalPages(searchCache[cacheKey].totalPages);
+      setHasSearched(true);
+      return;
+    }
+
     setIsLoading(true);
     setHasSearched(true);
 
@@ -72,13 +94,24 @@ function App() {
 
     try {
       const response = await axios.get(`https://api.jikan.moe/v4/anime?${params.toString()}`);
-      let fetchedAnime = response.data.data || [];
+      let fetchedAnime = removeDuplicates(response.data.data) || [];
+ 
       if (sort === "alphabetical") {
         fetchedAnime = sortAlphabetically(fetchedAnime);
       }
+
       setAnimeList(fetchedAnime);
       setCurrentPage(response.data.pagination.current_page);
       setTotalPages(response.data.pagination.last_visible_page);
+
+      setSearchCache(prev => ({
+        ...prev,
+        [cacheKey]: {
+          anime: fetchedAnime,
+          currentPage: response.data.pagination.current_page,
+          totalPages: response.data.pagination.last_visible_page
+        }
+      }));
     } catch (error) {
       console.error("Error fetching anime:", error);
     } finally {
@@ -87,17 +120,57 @@ function App() {
   };
 
 
+
+  const fetchTopUpcomingAnime = async (page = 1) => {
+    try {
+      const response = await axios.get(`https://api.jikan.moe/v4/anime?status=upcoming&order_by=popularity&sort=asc&page=${page}`);
+      const result = removeDuplicates(response.data.data);
+      setTopUpcomingAnime(prev => [...prev, ...result]);
+    } catch (error) {
+      console.error('Error fetching topUpcoming Anime:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchTopAnime = async () => {
-      try {
-        const response = await axios.get('https://api.jikan.moe/v4/top/anime?filter=airing');
-        setTopAnime(response.data.data || []);
-      } catch (error) {
-        console.error('Error fetching top anime:', error);
-      }
-    };
-    fetchTopAnime();
+    fetchTopUpcomingAnime();
   }, []);
+
+
+
+
+  const fetchMostPopularAnime = async (page = 1) => {
+    try {
+      const response = await axios.get(`https://api.jikan.moe/v4/anime?order_by=popularity&sort=asc&page=${page}`);
+      const result = removeDuplicates(response.data.data);
+      setMostPopularAnime(prev => [...prev, ...result]);
+    } catch (error) {
+      console.error('Error fetching mostPopular Anime:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMostPopularAnime();
+  }, []);
+
+
+
+
+
+  const fetchTopAnime = async (page = 1) => {
+    try {
+      const response = await axios.get(`https://api.jikan.moe/v4/top/anime?filter=airing&page=${page}`);
+      const result = removeDuplicates(response.data.data);
+      setTopAnime(prev => [...prev, ...result]);
+    } catch (error) {
+      console.error('Error fetching top anime:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTopAnime(topAnimePage);
+  }, [topAnimePage]);
+
+
 
   useEffect(() => {
     const fetchGenres = async () => {
@@ -110,6 +183,8 @@ function App() {
     };
     fetchGenres();
   }, []);
+
+
 
   const resetSearch = () => {
     setAnimeList([]);
@@ -124,7 +199,9 @@ function App() {
     setHasSearched(false);
   };
 
-  const displayedAnime = removeDuplicates(animeList.length > 0 ? animeList : topAnime);
+
+
+  const displayedAnime = animeList.length > 0 ? animeList : topAnime;
 
   const contextValue = {
     animeCardIsOpen,
@@ -149,12 +226,21 @@ function App() {
     currentPage,
     setCurrentPage,
     totalPages,
-    setTotalPages
+    setTotalPages,
+    topAnimePage,
+    setTopAnimePage,
+    isSidebarOpen,
+    setIsSidebarOpen,
+    topUpcomingAnime,
+    setTopUpcomingAnime,
+    mostPopularAnime,
+    setMostPopularAnime,
   };
 
   return (
     <AnimeContext.Provider value={contextValue}>
       <Router>
+        <SideBar />
         <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
