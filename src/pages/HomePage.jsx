@@ -5,7 +5,7 @@ import SearchBar from "../components/SearchBar";
 import ResultsHeader from "../components/ResultsHeader";
 import Results from "../components/Results";
 import '../styles/general.css';
-import Pagination from "../components/Pagination";
+import SearchedResultPagination from "../components/SearchedResultPagination";
 
 
 function HomePage() {
@@ -43,7 +43,7 @@ function HomePage() {
             )}
 
             {hasSearched ? (
-                <Pagination
+                <SearchedResultPagination
                     currentPage={currentPage}
                     totalPages={totalPages}
                     handleSearch={handleSearch}

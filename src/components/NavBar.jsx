@@ -3,6 +3,7 @@ import { useContext, useRef } from "react";
 import AnimeContext from "../contexts/AnimeContext";
 import '../styles/navBar.css';
 import { CSSTransition } from "react-transition-group";
+import axios from "axios";
 
 function NavBar() {
     const nodeRef = useRef(null);
@@ -17,18 +18,60 @@ function NavBar() {
         setCurrentPage,
         setTotalPages,
         setIsSidebarOpen,
+        hasLoadedSidebarData,
+        setHasLoadedSidebarData,
+        setTopUpcomingAnime,
+        setMostPopularAnime,
+        removeDuplicates
     } = useContext(AnimeContext);
+
+    const fetchSidebarAnime = async () => {
+        try {
+            const [upcomingRes, popularRes] = await Promise.all([
+                axios.get("https://api.jikan.moe/v4/anime", {
+                    params: {
+                        status: "upcoming",
+                        order_by: "popularity",
+                        sort: "asc",
+                        page: 1
+                    }
+                }),
+                axios.get("https://api.jikan.moe/v4/anime", {
+                    params: {
+                        order_by: "popularity",
+                        sort: "asc",
+                        page: 1
+                    }
+                })
+            ]);
+
+            const topUpcoming = removeDuplicates(upcomingRes.data.data || []);
+            const mostPopular = removeDuplicates(popularRes.data.data || []);
+
+            setTopUpcomingAnime(topUpcoming);
+            setMostPopularAnime(mostPopular);
+            setHasLoadedSidebarData(true);
+        } catch (err) {
+            console.error("Error loading sidebar data:", err);
+        }
+    };
+
+    const handleSidebarToggle = () => {
+        if (!hasLoadedSidebarData) {
+            fetchSidebarAnime();
+        }
+        setIsSidebarOpen(prev => !prev);
+    };
+
 
     return (
         <div className="navbar-container">
             <nav className="navbar">
-                <div className="side-bar-icon-container" onClick={() => setIsSidebarOpen(prev => !prev)}>
-                    <button className="side-bar-icon">
-                        ☰
-                    </button>
+                <div className="side-bar-icon-container" onClick={handleSidebarToggle}>
+                    <button className="side-bar-icon">☰</button>
                 </div>
 
-        
+
                 <Link
                     to="/"
                     className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}

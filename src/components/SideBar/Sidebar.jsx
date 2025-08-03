@@ -34,18 +34,22 @@ function SideBar() {
                         <button className="sidebar-close-btn" onClick={() => setIsSidebarOpen(false)}>✕</button>
                     </div>
                     <div className="sidebar-contents-container">
-                        <SideBarCategories 
-                            title="Top Upcoming Anime" 
-                            animeToDisplay={topUpcomingAnime}    
+                        <SideBarCategories
+                            title="Top Upcoming Anime"
+                            animeToDisplay={topUpcomingAnime}
+                            statusFilter="upcoming"
                         />
-                        <SideBarCategories 
-                            title="Most Popular Anime" 
-                            animeToDisplay={mostPopularAnime}    
+                        <SideBarCategories
+                            title="Most Popular Anime"
+                            animeToDisplay={mostPopularAnime}
+                            statusFilter="popular"
                         />
-                        <SideBarCategories 
-                            title="Top Airing Anime" 
-                            animeToDisplay={topAnime}    
+                        <SideBarCategories
+                            title="Top Airing Anime"
+                            animeToDisplay={topAnime}
+                            statusFilter="airing"
                         />
+
                     </div>
                 </div>
             </div>

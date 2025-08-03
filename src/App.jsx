@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AnimeContext from './contexts/AnimeContext';
 import SideBar from './components/SideBar/Sidebar';
+import SeeMorePage from './pages/SeeMorePage';
 
 import HomePage from './pages/HomePage';
 import NavBar from './components/NavBar';
@@ -34,6 +35,7 @@ function App() {
   const [hasSearched, setHasSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [hasLoadedSidebarData, setHasLoadedSidebarData] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -66,6 +68,9 @@ function App() {
   };
 
 
+
+
+
   const handleSearch = async ({ query, status, type, genre, sort }, page = 1) => {
     const cacheKey = `${query}-${status}-${type}-${genre}-${sort}-${filters.order}-${page}`;
 
@@ -95,7 +100,7 @@ function App() {
     try {
       const response = await axios.get(`https://api.jikan.moe/v4/anime?${params.toString()}`);
       let fetchedAnime = removeDuplicates(response.data.data) || [];
- 
+
       if (sort === "alphabetical") {
         fetchedAnime = sortAlphabetically(fetchedAnime);
       }
@@ -121,39 +126,6 @@ function App() {
 
 
 
-  const fetchTopUpcomingAnime = async (page = 1) => {
-    try {
-      const response = await axios.get(`https://api.jikan.moe/v4/anime?status=upcoming&order_by=popularity&sort=asc&page=${page}`);
-      const result = removeDuplicates(response.data.data);
-      setTopUpcomingAnime(prev => [...prev, ...result]);
-    } catch (error) {
-      console.error('Error fetching topUpcoming Anime:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchTopUpcomingAnime();
-  }, []);
-
-
-
-
-  const fetchMostPopularAnime = async (page = 1) => {
-    try {
-      const response = await axios.get(`https://api.jikan.moe/v4/anime?order_by=popularity&sort=asc&page=${page}`);
-      const result = removeDuplicates(response.data.data);
-      setMostPopularAnime(prev => [...prev, ...result]);
-    } catch (error) {
-      console.error('Error fetching mostPopular Anime:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchMostPopularAnime();
-  }, []);
-
-
-
 
 
   const fetchTopAnime = async (page = 1) => {
@@ -172,6 +144,7 @@ function App() {
 
 
 
+
   useEffect(() => {
     const fetchGenres = async () => {
       try {
@@ -183,6 +156,7 @@ function App() {
     };
     fetchGenres();
   }, []);
+  
 
 
 
@@ -211,6 +185,7 @@ function App() {
     animeList,
     setAnimeList,
     isLoading,
+    setIsLoading,
     handleSearch,
     favorites,
     isFavorite,
@@ -235,6 +210,9 @@ function App() {
     setTopUpcomingAnime,
     mostPopularAnime,
     setMostPopularAnime,
+    hasLoadedSidebarData,
+    setHasLoadedSidebarData,
+
   };
 
   return (
@@ -246,6 +224,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/anime/:id" element={<AnimeInformation />} />
+          <Route path="/category/:categoryType" element={<SeeMorePage />} />
         </Routes>
       </Router>
     </AnimeContext.Provider>
