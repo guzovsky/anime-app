@@ -134,6 +134,10 @@
     .select-elements-container {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .see-more-page.select-elements-container {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
 }
 
 @media (max-width: 399px) {

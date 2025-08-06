@@ -1,12 +1,16 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import AnimeContext from "../contexts/AnimeContext";
 import '../styles/navBar.css';
 import { CSSTransition } from "react-transition-group";
-import axios from "axios";
+import { TableOfContents } from 'lucide-react';
+
 
 function NavBar() {
     const nodeRef = useRef(null);
+    const [appJustLoaded, setAppJustLoaded] = useState(true);
+
+
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -19,44 +23,11 @@ function NavBar() {
         setTotalPages,
         setIsSidebarOpen,
         hasLoadedSidebarData,
-        setHasLoadedSidebarData,
-        setTopUpcomingAnime,
-        setMostPopularAnime,
-        removeDuplicates
+        fetchSidebarAnime
     } = useContext(AnimeContext);
 
-    const fetchSidebarAnime = async () => {
-        try {
-            const [upcomingRes, popularRes] = await Promise.all([
-                axios.get("https://api.jikan.moe/v4/anime", {
-                    params: {
-                        status: "upcoming",
-                        order_by: "popularity",
-                        sort: "asc",
-                        page: 1
-                    }
-                }),
-                axios.get("https://api.jikan.moe/v4/anime", {
-                    params: {
-                        order_by: "popularity",
-                        sort: "asc",
-                        page: 1
-                    }
-                })
-            ]);
-
-            const topUpcoming = removeDuplicates(upcomingRes.data.data || []);
-            const mostPopular = removeDuplicates(popularRes.data.data || []);
-
-            setTopUpcomingAnime(topUpcoming);
-            setMostPopularAnime(mostPopular);
-            setHasLoadedSidebarData(true);
-        } catch (err) {
-            console.error("Error loading sidebar data:", err);
-        }
-    };
-
     const handleSidebarToggle = () => {
+
         if (!hasLoadedSidebarData) {
             fetchSidebarAnime();
         }
@@ -64,11 +35,12 @@ function NavBar() {
     };
 
 
+
     return (
         <div className="navbar-container">
             <nav className="navbar">
                 <div className="side-bar-icon-container" onClick={handleSidebarToggle}>
-                    <button className="side-bar-icon">☰</button>
+                    <button className="side-bar-icon"><TableOfContents /></button>
                 </div>
 
 

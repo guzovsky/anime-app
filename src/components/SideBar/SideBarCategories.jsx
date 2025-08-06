@@ -4,6 +4,8 @@ import SideBarAnimeCards from "./SideBarAnimeCards";
 import "./sideBarCategories.css";
 import { CSSTransition } from "react-transition-group";
 import { useNavigate } from "react-router-dom";
+import { RotateCcw, MoveDown } from 'lucide-react';
+
 
 const SideBarCategories = ({ title, animeToDisplay, statusFilter }) => {
     const nodeRef = useRef(null);
@@ -15,6 +17,9 @@ const SideBarCategories = ({ title, animeToDisplay, statusFilter }) => {
         handleAddToFavorites,
         setIsSidebarOpen,
         resetSearch,
+        sidebarDataFailed,
+        setSidebarDataFailed,
+        fetchSidebarAnime
     } = useContext(AnimeContext);
 
     const navigate = useNavigate();
@@ -37,11 +42,26 @@ const SideBarCategories = ({ title, animeToDisplay, statusFilter }) => {
                 nodeRef={nodeRef}
             >
                 <div ref={nodeRef}>
-                    <div className="sidebar-card-container">
-                        {animeToDisplay.length === 0 ? (
-                            <p>No anime found.</p>
-                        ) : (
-                            animeToDisplay.slice(0, 5).map((anime) => (
+                    {sidebarDataFailed ? (
+                        <div className="sidebar-error-container">
+                            <p>An error has occurred. <br></br> Please try again.</p>
+
+                            <button className="sidebar-retry-btn"
+                                onClick={async () => {
+                                    setSidebarDataFailed(false);
+                                    await fetchSidebarAnime();
+                                }}
+                            >
+                                <RotateCcw />
+                            </button>
+
+                            <p>Or try seeing the Anime in full screen by clicking the <span className="span">See More</span> button below </p>
+                            <MoveDown />
+
+                        </div>
+                    ) : (
+                        <div className="sidebar-card-container">
+                            {animeToDisplay.slice(0, 5).map((anime) => (
                                 <SideBarAnimeCards
                                     setIsSidebarOpen={setIsSidebarOpen}
                                     key={anime.mal_id}
@@ -50,9 +70,10 @@ const SideBarCategories = ({ title, animeToDisplay, statusFilter }) => {
                                     onFavoriteToggle={handleAddToFavorites}
                                     showAddButton={true}
                                 />
-                            ))
-                        )}
-                    </div>
+                            ))}
+                        </div>
+                    )}
+
 
                     <div className="sidebar-see-more-btn-container">
                         <button

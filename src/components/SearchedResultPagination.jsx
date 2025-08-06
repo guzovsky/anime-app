@@ -4,11 +4,17 @@ const SearchedResultPagination = ({ totalPages, currentPage, handleSearch, filte
             {!isLoading && (
                 <div className="pagination">
                     {currentPage > 1 && (
-                        <button onClick={() => handleSearch(filters, currentPage - 1)}>Prev</button>
+                        <button onClick={() => {
+                            handleSearch(filters, currentPage - 1)
+                            window.scrollTo({ top: 0, behavior: "smooth" })
+                        }}>Prev</button>
                     )}
                     <span>Page {currentPage} of {totalPages}</span>
                     {currentPage < totalPages && (
-                        <button onClick={() => handleSearch(filters, currentPage + 1)}>Next</button>
+                        <button onClick={() => {
+                            handleSearch(filters, currentPage + 1)
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}>Next</button>
                     )}
                 </div>
             )}

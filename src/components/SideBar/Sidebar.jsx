@@ -13,8 +13,9 @@ function SideBar() {
         mostPopularAnime,
         topUpcomingAnime,
         topAnime,
+        sideBarAnimeIsLoading,
     } = useContext(AnimeContext);
-
+    
     return (
         <CSSTransition
             in={isSidebarOpen}
@@ -33,24 +34,29 @@ function SideBar() {
                         <h2>Explore Some Recommended Categories</h2>
                         <button className="sidebar-close-btn" onClick={() => setIsSidebarOpen(false)}>✕</button>
                     </div>
-                    <div className="sidebar-contents-container">
-                        <SideBarCategories
-                            title="Top Upcoming Anime"
-                            animeToDisplay={topUpcomingAnime}
-                            statusFilter="upcoming"
-                        />
-                        <SideBarCategories
-                            title="Most Popular Anime"
-                            animeToDisplay={mostPopularAnime}
-                            statusFilter="popular"
-                        />
-                        <SideBarCategories
-                            title="Top Airing Anime"
-                            animeToDisplay={topAnime}
-                            statusFilter="airing"
-                        />
+                    {!sideBarAnimeIsLoading ? (
+                        <div className="sidebar-contents-container">
+                            <SideBarCategories
+                                title="Top Upcoming Anime"
+                                animeToDisplay={topUpcomingAnime}
+                                statusFilter="upcoming"
+                            />
+                            <SideBarCategories
+                                title="Most Popular Anime"
+                                animeToDisplay={mostPopularAnime}
+                                statusFilter="popular"
+                            />
+                            <SideBarCategories
+                                title="Top Airing Anime"
+                                animeToDisplay={topAnime}
+                                statusFilter="airing"
+                            />
 
-                    </div>
+                        </div>
+                    ) : (
+                        <p>Loading...</p>
+                    )}
+
                 </div>
             </div>
         </CSSTransition>

@@ -1,40 +1,63 @@
 import { useParams } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
-import AnimeContext from "../contexts/AnimeContext";
-import AnimeCard from "../components/AnimeCard";
-import FiltersSection from "../components/FiltersSection";
-import "../styles/seeMorePage.css"
-import Pagination from "../components/Pagination";
+import { useContext, useState, useEffect, useMemo } from "react";
+import AnimeContext from "../../contexts/AnimeContext";
+import AnimeCard from "../../components/AnimeCard";
+import FiltersForSeeMorePage from "./FiltersForSeeMorePage";
+import "../../styles/seeMorePage.css"
+import Pagination from "../../components/Pagination";
 
 const SeeMorePage = () => {
+    const [genre, setGenre] = useState("");
     const { categoryType } = useParams()
+    const [page, setPage] = useState(1);
+    const [isResettingFilters, setIsResettingFilters] = useState(false);
+
     const {
         isFavorite,
         handleAddToFavorites,
+        isLoading,
     } = useContext(AnimeContext);
 
     const [animeList, setAnimeList] = useState([]);
 
-    let title = ""
-    let status = ""
-    let orderBy = ""
-    let sort = ""
-
+    const { title, status, orderBy, sort } = useMemo(() => {
         switch (categoryType) {
             case "upcoming":
-                title = "Top Upcoming Anime";
-                status = "upcoming";
-                orderBy = "popularity";
-                sort = "asc";
-                break;
+                return {
+                    title: "Top Upcoming Anime",
+                    status: "upcoming",
+                    orderBy: "popularity",
+                    sort: "asc",
+                };
             case "popular":
-                title = "Most Popular Anime";
-                orderBy = "popularity";
-                sort = "asc";
-                break;
             default:
-                break;
+                return {
+                    title: "Most Popular Anime",
+                    status: "",
+                    orderBy: "popularity",
+                    sort: "asc",
+                };
         }
+    }, [categoryType]);
+
+    useEffect(() => {
+        setIsResettingFilters(true);
+        setGenre("");
+        setPage(1);
+        setAnimeList([]);
+
+        const timeout = setTimeout(() => {
+            setIsResettingFilters(false);
+        }, 0);
+
+        return () => clearTimeout(timeout);
+    }, [categoryType]);
+
+
+    useEffect(() => {
+        setPage(1);
+    }, [genre]);
+
 
 
     const [columnsCount, setColumnsCount] = useState(getColumnCount());
@@ -60,16 +83,22 @@ const SeeMorePage = () => {
     });
 
 
-
-
     return (
 
         <div className="see-more-page">
             <h1>{title}</h1>
 
-            <FiltersSection />
+            {!isResettingFilters && (
+                <FiltersForSeeMorePage
+                    genre={genre}
+                    setGenre={setGenre}
+                />
+            )}
 
-            <div className="masonry-container">
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : (
+                <div className="masonry-container">
                 {columns.map((column, colIndex) => (
                     <div key={colIndex} className="masonry-column">
                         {column.map((anime) => (
@@ -84,13 +113,19 @@ const SeeMorePage = () => {
                     </div>
                 ))}
             </div>
+            )}
+            
 
 
             <Pagination
+                animeList={animeList}
+                genre={genre}
                 status={status}
                 orderBy={orderBy}
                 sort={sort}
                 setAnimeList={setAnimeList}
+                page={page}
+                setPage={setPage}
             />
 
         </div>

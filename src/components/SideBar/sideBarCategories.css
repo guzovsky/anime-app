@@ -37,6 +37,28 @@
     gap: 1rem;
 }
 
+.sidebar-error-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.sidebar-retry-btn {
+    color: white;
+}
+
+.span {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.sidebar-card-container p {
+    margin: 0 auto;
+}
+
 .sidebar-see-more-btn-container {
     width: 100%;
     text-align: center;
@@ -47,6 +69,7 @@
     position: relative;
     color: white;
     font-style: italic;
+    font-weight: bold;
     margin-bottom: 1rem;
 }
 

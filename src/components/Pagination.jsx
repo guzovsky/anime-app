@@ -2,33 +2,42 @@ import { useContext, useState, useEffect } from "react";
 import AnimeContext from "../contexts/AnimeContext";
 import axios from "axios";
 
-function Pagination({ status, orderBy, sort, setAnimeList }) {
+function Pagination({ status, orderBy, sort, setAnimeList, genre, page, setPage, animeList }) {
+
 
     const {
         setIsLoading,
         isLoading,
         removeDuplicates,
+        removeBuggedAnime,
     } = useContext(AnimeContext);
 
-    const [page, setPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
+
 
     const fetchAnime = async () => {
         setIsLoading(true);
+
+        const params = new URLSearchParams();
+        if (status) params.append("status", status);
+        if (genre) params.append("genres", genre);
+        if (orderBy) {
+            params.append("order_by", orderBy);
+            params.append("sort", sort);
+        }
+        params.append("page", page);
+        params.append("limit", 21);
+
         try {
-            const response = await axios.get("https://api.jikan.moe/v4/anime", {
-                params: {
-                    ...(status && { status }),
-                    ...(orderBy && { order_by: orderBy }),
-                    ...(sort && { sort }),
-                    page,
-                },
-            })
+            const response = await axios.get(`https://api.jikan.moe/v4/anime?${params.toString()}`);
+            let newAnimeList = removeDuplicates(removeBuggedAnime(response.data.data) || []);
 
-            const newAnimeList = removeDuplicates(response.data.data || []);
             setAnimeList(newAnimeList);
+            const currentPageFromAPI = Number(response.data.pagination.current_page);
+            if (currentPageFromAPI !== page) {
+                setPage(currentPageFromAPI);
+            }
             setTotalPages(response.data.pagination.last_visible_page);
-
 
         } catch (err) {
             console.error("Error loading pages:", err);
@@ -38,39 +47,39 @@ function Pagination({ status, orderBy, sort, setAnimeList }) {
     };
 
     useEffect(() => {
-        setPage(1);
-    }, [status, orderBy, sort]);
-
-    useEffect(() => {
         fetchAnime();
-    }, [page, status, orderBy, sort]);
+    }, [page, status, orderBy, sort, genre]);
 
     return (
         <>
             {!isLoading && (
-                <div className="pagination">
-                    {page > 1 && (
-                        <button
-                            onClick={() => {
-                                setPage((prev) => prev - 1);
-                                window.scrollTo({ top: 0, behavior: "smooth" });
-                            }}
-                        >
-                            Prev
-                        </button>
-                    )}
-                    <span>Page {page} of {totalPages}</span>
-                    {page < totalPages && (
-                        <button
-                            onClick={() => {
-                                setPage((prev) => prev + 1);
-                                window.scrollTo({ top: 0, behavior: "smooth" });
-                            }}
-                        >
-                            Next
-                        </button>
-                    )}
-                </div>
+                animeList.length === 0 ? (
+                    <p className="no-results-message">No results found. Try adjusting your filters or search.</p>
+                ) : (
+                    <div className="pagination">
+                        {page > 1 && (
+                            <button
+                                onClick={() => {
+                                    setPage((prev) => prev - 1);
+                                    window.scrollTo({ top: 0, behavior: "smooth" });
+                                }}
+                            >
+                                Prev
+                            </button>
+                        )}
+                        <span>Page {page} of {totalPages}</span>
+                        {page < totalPages && (
+                            <button
+                                onClick={() => {
+                                    setPage((prev) => prev + 1);
+                                    window.scrollTo({ top: 0, behavior: "smooth" });
+                                }}
+                            >
+                                Next
+                            </button>
+                        )}
+                    </div>
+                )
             )}
         </>
     );

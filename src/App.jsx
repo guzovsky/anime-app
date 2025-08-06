@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AnimeContext from './contexts/AnimeContext';
 import SideBar from './components/SideBar/Sidebar';
-import SeeMorePage from './pages/SeeMorePage';
+import SeeMorePage from './pages/SeeMorePage/SeeMorePage';
 
 import HomePage from './pages/HomePage';
 import NavBar from './components/NavBar';
@@ -19,8 +19,19 @@ function removeDuplicates(animeArray) {
   });
 }
 
-function sortAlphabetically(animeList) {
-  return [...animeList].sort((a, b) => a.title.localeCompare(b.title));
+const removeBuggedAnime = (animeList) => {
+  return animeList.filter(anime =>
+    anime.members > 100
+  );
+};
+
+
+function sortAlphabetically(animeList, direction = "asc") {
+  return [...animeList].sort((a, b) => {
+    return direction === "asc"
+      ? a.title.localeCompare(b.title)
+      : b.title.localeCompare(a.title);
+  });
 }
 
 function App() {
@@ -36,6 +47,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [hasLoadedSidebarData, setHasLoadedSidebarData] = useState(false);
+  const [sideBarAnimeIsLoading, setSideBarAnimeIsLoading] = useState(false)
+  const [sidebarDataFailed, setSidebarDataFailed] = useState(true)
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -102,7 +115,7 @@ function App() {
       let fetchedAnime = removeDuplicates(response.data.data) || [];
 
       if (sort === "alphabetical") {
-        fetchedAnime = sortAlphabetically(fetchedAnime);
+        fetchedAnime = sortAlphabetically(fetchedAnime, filters.order);
       }
 
       setAnimeList(fetchedAnime);
@@ -123,6 +136,54 @@ function App() {
       setIsLoading(false);
     }
   };
+
+
+
+
+
+
+  const fetchSidebarAnime = async () => {
+    setSideBarAnimeIsLoading(true);
+    try {
+      const [upcomingRes, popularRes] = await Promise.all([
+        axios.get("https://api.jikan.moe/v4/anime", {
+          params: {
+            status: "upcoming",
+            order_by: "popularity",
+            sort: "asc",
+            page: 1
+          }
+        }),
+        axios.get("https://api.jikan.moe/v4/anime", {
+          params: {
+            order_by: "popularity",
+            sort: "asc",
+            page: 1
+          }
+        })
+      ]);
+
+
+
+      const filteredUpcomingRes = removeBuggedAnime(upcomingRes.data.data)
+      const filteredPopularRes = removeBuggedAnime(popularRes.data.data)
+
+      const topUpcoming = removeDuplicates(filteredUpcomingRes || []);
+      const mostPopular = removeDuplicates(filteredPopularRes || []);
+
+      setTopUpcomingAnime(topUpcoming);
+      setMostPopularAnime(mostPopular);
+      setSidebarDataFailed(false)
+      setHasLoadedSidebarData(true);
+    } catch (err) {
+      console.error("Error loading sidebar data:", err);
+      setSidebarDataFailed(true)
+    } finally {
+      setSideBarAnimeIsLoading(false);
+    }
+  };
+
+
 
 
 
@@ -156,7 +217,7 @@ function App() {
     };
     fetchGenres();
   }, []);
-  
+
 
 
 
@@ -212,6 +273,13 @@ function App() {
     setMostPopularAnime,
     hasLoadedSidebarData,
     setHasLoadedSidebarData,
+    removeBuggedAnime,
+    sortAlphabetically,
+    sideBarAnimeIsLoading,
+    setSideBarAnimeIsLoading,
+    sidebarDataFailed,
+    setSidebarDataFailed,
+    fetchSidebarAnime
 
   };
 
