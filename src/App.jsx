@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AnimeContext from './contexts/AnimeContext';
-import SideBar from './components/sideBar/SideBar';
+import SideBar from './components/sideBar/SideBar.jsx';
 import SeeMorePage from './pages/SeeMorePage/SeeMorePage';
 
 import HomePage from './pages/HomePage';
