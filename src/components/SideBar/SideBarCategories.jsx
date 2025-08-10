@@ -3,7 +3,7 @@ import AnimeContext from "../../contexts/AnimeContext";
 import SideBarAnimeCards from "./SideBarAnimeCards";
 import "./sideBarCategories.css";
 import { CSSTransition } from "react-transition-group";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RotateCcw, MoveDown } from 'lucide-react';
 
 
@@ -16,10 +16,12 @@ const SideBarCategories = ({ title, animeToDisplay, statusFilter }) => {
         isFavorite,
         handleAddToFavorites,
         setIsSidebarOpen,
-        resetSearch,
         sidebarDataFailed,
         setSidebarDataFailed,
-        fetchSidebarAnime
+        fetchSidebarAnime,
+        setGenreForSeeMorePage,
+        setSideBarAnimepage,
+
     } = useContext(AnimeContext);
 
     const navigate = useNavigate();
@@ -76,25 +78,18 @@ const SideBarCategories = ({ title, animeToDisplay, statusFilter }) => {
 
 
                     <div className="sidebar-see-more-btn-container">
-                        <button
+                        <Link
                             className="sidebar-see-more-btn"
+                            to={`/category/${statusFilter}`}
                             onClick={() => {
-                                if (statusFilter === "airing") {
-                                    navigate("/")
-                                    resetSearch()
-                                    setIsSidebarOpen(false);
-                                    return
-                                } else {
-                                    const category = statusFilter === "upcoming"
-                                        ? "upcoming"
-                                        : "popular"
-                                    navigate(`/category/${category}`);
-                                    setIsSidebarOpen(false);
-                                }
+                                setIsSidebarOpen(false);
+                                setGenreForSeeMorePage("");
+                                setSideBarAnimepage(1);
                             }}
+
                         >
                             See More
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </CSSTransition>

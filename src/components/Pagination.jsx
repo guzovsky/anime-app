@@ -2,20 +2,36 @@ import { useContext, useState, useEffect } from "react";
 import AnimeContext from "../contexts/AnimeContext";
 import axios from "axios";
 
-function Pagination({ status, orderBy, sort, setAnimeList, genre, page, setPage, animeList }) {
-
+function Pagination({ status, orderBy, sort, setAnimeList, genre, page, setPage, animeList, isResettingFilters }) {
 
     const {
         setIsLoading,
         isLoading,
         removeDuplicates,
         removeBuggedAnime,
+        sidebarAnimeCache,
+        setSidebarAnimeCache,
+        sideBarAnimePageCache,
+        setSideBarAnimePageCache,
     } = useContext(AnimeContext);
+
+    useEffect(() => {
+        setSideBarAnimePageCache(page)
+    }, [page]);
 
     const [totalPages, setTotalPages] = useState(1)
 
-
     const fetchAnime = async () => {
+
+        const cacheKey = `${status}-${genre}-${orderBy}-${sort}-${page}`;
+
+        if (sidebarAnimeCache[cacheKey]) {
+            setAnimeList(sidebarAnimeCache[cacheKey].anime);
+            setPage(sidebarAnimeCache[cacheKey].currentPage);
+            setTotalPages(sidebarAnimeCache[cacheKey].totalPages);
+            return;
+        }
+
         setIsLoading(true);
 
         const params = new URLSearchParams();
@@ -33,11 +49,16 @@ function Pagination({ status, orderBy, sort, setAnimeList, genre, page, setPage,
             let newAnimeList = removeDuplicates(removeBuggedAnime(response.data.data) || []);
 
             setAnimeList(newAnimeList);
-            const currentPageFromAPI = Number(response.data.pagination.current_page);
-            if (currentPageFromAPI !== page) {
-                setPage(currentPageFromAPI);
-            }
             setTotalPages(response.data.pagination.last_visible_page);
+
+            setSidebarAnimeCache(prev => ({
+                ...prev,
+                [cacheKey]: {
+                    anime: newAnimeList,
+                    currentPage: response.data.pagination.current_page,
+                    totalPages: response.data.pagination.last_visible_page
+                }
+            }));
 
         } catch (err) {
             console.error("Error loading pages:", err);
@@ -46,9 +67,13 @@ function Pagination({ status, orderBy, sort, setAnimeList, genre, page, setPage,
         }
     };
 
+
+
     useEffect(() => {
-        fetchAnime();
-    }, [page, status, orderBy, sort, genre]);
+        if (!isResettingFilters) {
+            fetchAnime();
+        }
+    }, [page, status, orderBy, sort, genre, isResettingFilters]);
 
     return (
         <>

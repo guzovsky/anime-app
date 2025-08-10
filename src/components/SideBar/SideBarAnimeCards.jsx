@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import AnimeContext from "../../contexts/AnimeContext";
 import { Link } from "react-router-dom";
+import { HeartPlus, HeartMinus } from 'lucide-react';
 
 function SideBarAnimeCards({ anime, setIsSidebarOpen, isFavorite, onFavoriteToggle, showAddButton = true }) {
     const { setAnimeCardIsOpen } = useContext(AnimeContext);
@@ -20,12 +21,12 @@ function SideBarAnimeCards({ anime, setIsSidebarOpen, isFavorite, onFavoriteTogg
                 <div className="sidebar-favorite-btn-container">
                     {showAddButton ? (
                         !isFavorite(anime) ? (
-                            <button onClick={() => onFavoriteToggle(anime)} className="sidebar-add-btn">Add to Favorites</button>
+                            <button onClick={() => onFavoriteToggle(anime)} className="sidebar-add-btn"><HeartPlus size="21" /></button>
                         ) : (
-                            <button onClick={() => onFavoriteToggle(anime)} className="sidebar-remove-btn">Remove from Favorites</button>
+                            <button onClick={() => onFavoriteToggle(anime)} className="sidebar-remove-btn"><HeartMinus size="21" /></button>
                         )
                     ) : (
-                        <button onClick={() => onFavoriteToggle(anime)} className="sidebar-remove-btn">Remove from Favorites</button>
+                        <button onClick={() => onFavoriteToggle(anime)} className="sidebar-remove-btn"><HeartMinus size="21" /></button>
                     )}
                 </div>
             </div>

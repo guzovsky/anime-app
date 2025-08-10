@@ -1,17 +1,12 @@
+import { useState, useEffect, useRef, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useContext, useRef, useState } from "react";
 import AnimeContext from "../contexts/AnimeContext";
 import '../styles/navBar.css';
 import { CSSTransition } from "react-transition-group";
-import { TableOfContents } from 'lucide-react';
-
+import { TableOfContents, House, HeartPlus, Info, PanelRightOpen, LayoutPanelTop } from 'lucide-react';
 
 function NavBar() {
     const nodeRef = useRef(null);
-    const [appJustLoaded, setAppJustLoaded] = useState(true);
-
-
-
     const location = useLocation();
     const navigate = useNavigate();
     const {
@@ -23,11 +18,37 @@ function NavBar() {
         setTotalPages,
         setIsSidebarOpen,
         hasLoadedSidebarData,
-        fetchSidebarAnime
+        fetchSidebarAnime,
+        seeMorePageIsOpen,
     } = useContext(AnimeContext);
 
-    const handleSidebarToggle = () => {
+    const [showNav, setShowNav] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY < 50) {
+                // Always show when near the top
+                setShowNav(true);
+            } else if (currentScrollY < lastScrollY - 10) {
+                // Scrolling up → show
+                setShowNav(true);
+            } else if (currentScrollY > lastScrollY + 10) {
+                // Scrolling down → hide
+                setShowNav(false);
+            }
+
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [lastScrollY]);
+
+
+    const handleSidebarToggle = () => {
         if (!hasLoadedSidebarData) {
             fetchSidebarAnime();
         }
@@ -35,62 +56,91 @@ function NavBar() {
     };
 
 
-
     return (
-        <div className="navbar-container">
-            <nav className="navbar">
-                <div className="side-bar-icon-container" onClick={handleSidebarToggle}>
-                    <button className="side-bar-icon"><TableOfContents /></button>
+        <>
+            {!showNav && (
+                <div className="open-navbar-container">
+                    <button onClick={() => setShowNav(true)}><PanelRightOpen size={22} /></button>
                 </div>
+            )}
 
+            <div className={`navbar-container ${showNav ? "visible" : "hidden"}`}>
+                <nav className="navbar">
+                    <div className="side-bar-icon-container" onClick={handleSidebarToggle}>
+                        <button className="side-bar-icon"><TableOfContents /></button>
+                    </div>
 
-                <Link
-                    to="/"
-                    className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        const isHome = location.pathname === "/";
-                        if ((animeList.length > 0 || hasSearched) && isHome) {
-                            resetSearch();
-                            setCurrentPage(1);
-                            setTotalPages(1);
-                        }
-                        if (!isHome) {
-                            navigate("/");
-                        }
-                    }}
-                >
-                    Home
-                </Link>
-
-                <CSSTransition
-                    in={animeCardIsOpen}
-                    timeout={200}
-                    classNames="nav-link-anime-info"
-                    unmountOnExit
-                    nodeRef={nodeRef}
-                >
-                    <div ref={nodeRef}>
+                    <div>
                         <Link
-                            to={`/anime/${animeCardIsOpen}`}
-                            className={`nav-link ${location.pathname === `/anime/${animeCardIsOpen}` ? 'active' : ''}`}
+                            to="/"
+                            className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const isHome = location.pathname === "/";
+                                if ((animeList.length > 0 || hasSearched) && isHome) {
+                                    resetSearch();
+                                    setCurrentPage(1);
+                                    setTotalPages(1);
+                                }
+                                if (!isHome) {
+                                    navigate("/");
+                                }
+                            }}
                         >
-                            Anime Info
+                            <House size={28} />
                         </Link>
                     </div>
-                </CSSTransition>
 
 
+                    <CSSTransition
+                        in={animeCardIsOpen}
+                        timeout={200}
+                        classNames="nav-link-anime-info"
+                        unmountOnExit
+                        nodeRef={nodeRef}
+                    >
+                        <div ref={nodeRef}>
+                            <Link
+                                to={`/anime/${animeCardIsOpen}`}
+                                className={`nav-link ${location.pathname === `/anime/${animeCardIsOpen}` ? 'active' : ''}`}
+                            >
+                                <Info size={28} />
+                            </Link>
+                        </div>
+                    </CSSTransition>
 
+                    <CSSTransition
+                        in={seeMorePageIsOpen}
+                        timeout={200}
+                        className="nav-link-anime-info"
+                        unmountOnExit
+                        nodeRef={nodeRef}
+                    >
+                        <div ref={nodeRef}>
+                            <Link
+                                to={`/category/${seeMorePageIsOpen}`}
+                                className={`nav-link ${location.pathname === `/category/${seeMorePageIsOpen}` ? 'active' : ''}`}
 
-                <Link
-                    to="/favorites"
-                    className={`nav-link ${location.pathname === '/favorites' ? 'active' : ''}`}
-                >
-                    Favorites
-                </Link>
-            </nav>
-        </div>
+                            >
+                                <LayoutPanelTop size={28} />
+                            </Link>
+                        </div>
+                    </CSSTransition>
+
+                    <div>
+                        <Link
+                            to="/favorites"
+                            className={`nav-link ${location.pathname === '/favorites' ? 'active' : ''}`}
+                        >
+                            <HeartPlus size={28} />
+                        </Link>
+                    </div>
+
+                </nav>
+            </div>
+
+        </>
+
     );
 }
 

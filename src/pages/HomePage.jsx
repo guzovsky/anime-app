@@ -6,11 +6,11 @@ import ResultsHeader from "../components/ResultsHeader";
 import Results from "../components/Results";
 import '../styles/general.css';
 import SearchedResultPagination from "../components/SearchedResultPagination";
+import Carousel from "../components/Carousel/carousel";
 
 
 function HomePage() {
     const {
-        setAnimeCardIsOpen,
         isLoading,
         handleSearch,
         animeList,
@@ -20,11 +20,8 @@ function HomePage() {
         currentPage,
         totalPages,
         setTopAnimePage,
+        topAnime,
     } = useContext(AnimeContext)
-
-    useEffect(() => {
-        setAnimeCardIsOpen(null);
-    }, []);
 
     return (
         <div className="container">
@@ -34,6 +31,8 @@ function HomePage() {
             <ResultsHeader animeList={animeList} />
             <FiltersSection onSearch={() => handleSearch(filters)} />
 
+            {!hasSearched && <Carousel header="Top Airing Anime" animeList={topAnime} />}
+
             {isLoading ? (
                 <p>Loading...</p>
             ) : animeList.length === 0 && hasSearched ? (
@@ -42,7 +41,7 @@ function HomePage() {
                 <Results />
             )}
 
-            {hasSearched ? (
+            {hasSearched && (
                 <SearchedResultPagination
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -50,17 +49,6 @@ function HomePage() {
                     filters={filters}
                     isLoading={isLoading}
                 />
-            ) : isLoading ? (
-                <p>Loading...</p>
-            ) : (
-                <div className="load-more-airing-anime">
-                    <button
-                        className="load-more-airing-anime-btn"
-                        onClick={() => setTopAnimePage(prev => prev + 1)}
-                    >
-                        Load More
-                    </button>
-                </div>
             )}
         </div>
     );

@@ -129,11 +129,9 @@
     font-weight: bold;
 }
 
-.sidebar-favorite-btn-container {
-    font-size: 0.8rem;
-}
-
 .sidebar-add-btn {
+    display: flex;
+    justify-content: center;
     background-color: #2e86de;
     color: white;
     border: none;
@@ -145,6 +143,9 @@
 }
 
 .sidebar-remove-btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
     background-color: #ff5c5c;
     color: white;
     border: none;

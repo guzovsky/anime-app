@@ -46,7 +46,9 @@ h1 {
 }
 
 .anime-card {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 100%;
     background-color: #14151b;
     color: #fff;
@@ -83,10 +85,11 @@ h1 {
 }
 
 .anime-details {
-    padding: 0.8rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding: 0.8rem 1rem;
 }
 
 .anime-title {
@@ -132,9 +135,8 @@ h1 {
 }
 
 .favorite-btn-container {
-    margin-top: auto;
+    margin-top: 1rem;
     text-align: center;
-    padding: 0.8rem;
 }
 
 .add-btn, .pagination button, .load-more-airing-anime-btn {
@@ -147,12 +149,21 @@ h1 {
     transition: background-color 0.2s ease;
 }
 
+.add-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .load-more-airing-anime-btn {
     margin: 2rem 0;
     transition: background-color 0.2s ease;
 }
 
 .remove-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
     background-color: #ff5c5c;
     color: white;
     border: none;

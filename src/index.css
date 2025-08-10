@@ -22,6 +22,7 @@ html {
 
 /* 3. Body Styling & Global Layout */
 body {
+    padding-top: 3rem;
     color: white;
     background-color: #12141d;
     overflow-x: hidden; /* Prevents horizontal scroll from accidental overflows */

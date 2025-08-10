@@ -86,7 +86,7 @@
     background-color: #1a1d2c;
     border-radius: 8px;
     margin-top: 4px;
-    z-index: 10;
+    z-index: 999;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     max-height: 265px;
     overflow-y: auto;

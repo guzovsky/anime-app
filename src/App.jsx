@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AnimeContext from './contexts/AnimeContext';
-import SideBar from './components/SideBar/Sidebar';
+import SideBar from './components/SideBar/SideBar';
 import SeeMorePage from './pages/SeeMorePage/SeeMorePage';
 
 import HomePage from './pages/HomePage';
@@ -36,6 +36,7 @@ function sortAlphabetically(animeList, direction = "asc") {
 
 function App() {
   const [animeCardIsOpen, setAnimeCardIsOpen] = useState(null);
+  const [seeMorePageIsOpen, setSeeMorePageIsOpen] = useState(null)
 
   const [animeList, setAnimeList] = useState([]);
   const [topAnime, setTopAnime] = useState([]);
@@ -47,7 +48,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [hasLoadedSidebarData, setHasLoadedSidebarData] = useState(false);
-  const [sideBarAnimeIsLoading, setSideBarAnimeIsLoading] = useState(false)
+  const [sideBarAnimeIsLoading, setSideBarAnimeIsLoading] = useState(false);
   const [sidebarDataFailed, setSidebarDataFailed] = useState(true)
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,6 +56,12 @@ function App() {
   const [topAnimePage, setTopAnimePage] = useState(1);
 
   const [searchCache, setSearchCache] = useState({});
+  const [sidebarAnimeCache, setSidebarAnimeCache] = useState({});
+
+  const [sideBarAnimepage, setSideBarAnimepage] = useState(1);
+  const [sideBarAnimePageCache, setSideBarAnimePageCache] = useState(1);
+
+  const [genreForSeeMorePage, setGenreForSeeMorePage] = useState("");
 
 
   const [filters, setFilters] = useState({
@@ -163,8 +170,6 @@ function App() {
         })
       ]);
 
-
-
       const filteredUpcomingRes = removeBuggedAnime(upcomingRes.data.data)
       const filteredPopularRes = removeBuggedAnime(popularRes.data.data)
 
@@ -191,7 +196,7 @@ function App() {
 
   const fetchTopAnime = async (page = 1) => {
     try {
-      const response = await axios.get(`https://api.jikan.moe/v4/top/anime?filter=airing&page=${page}`);
+      const response = await axios.get(`https://api.jikan.moe/v4/top/anime?filter=airing&page=${page}&limit=20`);
       const result = removeDuplicates(response.data.data);
       setTopAnime(prev => [...prev, ...result]);
     } catch (error) {
@@ -199,23 +204,34 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    fetchTopAnime(topAnimePage);
-  }, [topAnimePage]);
-
-
-
+  const hasFetchedTopAnime = useRef(false);
 
   useEffect(() => {
-    const fetchGenres = async () => {
-      try {
-        const response = await axios.get("https://api.jikan.moe/v4/genres/anime");
-        setAnimeGenres(response.data.data || []);
-      } catch (error) {
-        console.error('Error fetching genres:', error);
-      }
-    };
-    fetchGenres();
+    if (!hasFetchedTopAnime.current) {
+      fetchTopAnime(topAnimePage);
+      hasFetchedTopAnime.current = true;
+    }
+  }, []);
+
+
+
+
+
+  const fetchGenres = async () => {
+    try {
+      const response = await axios.get("https://api.jikan.moe/v4/genres/anime");
+      setAnimeGenres(response.data.data || []);
+    } catch (error) {
+      console.error('Error fetching genres:', error);
+    }
+  };
+
+  const hasFetchedGenres = useRef(false);
+  useEffect(() => {
+    if (!hasFetchedGenres.current) {
+      fetchGenres();
+      hasFetchedGenres.current = true;
+    }
   }, []);
 
 
@@ -263,8 +279,6 @@ function App() {
     setCurrentPage,
     totalPages,
     setTotalPages,
-    topAnimePage,
-    setTopAnimePage,
     isSidebarOpen,
     setIsSidebarOpen,
     topUpcomingAnime,
@@ -279,7 +293,19 @@ function App() {
     setSideBarAnimeIsLoading,
     sidebarDataFailed,
     setSidebarDataFailed,
-    fetchSidebarAnime
+    fetchSidebarAnime,
+    genreForSeeMorePage,
+    setGenreForSeeMorePage,
+    seeMorePageIsOpen,
+    setSeeMorePageIsOpen,
+    searchCache,
+    setSearchCache,
+    sidebarAnimeCache,
+    setSidebarAnimeCache,
+    sideBarAnimepage,
+    setSideBarAnimepage,
+    sideBarAnimePageCache,
+    setSideBarAnimePageCache,
 
   };
 

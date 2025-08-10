@@ -2,16 +2,6 @@ import { useState, useRef, useEffect, useContext } from "react";
 import AnimeContext from "../../contexts/AnimeContext";
 import CustomSelect from "../../components/CustomSelect";
 
-const SORT_OPTIONS = [
-    { label: "Sort By", value: "" },
-    { label: "Score", value: "score" },
-    { label: "Start Date", value: "start_date" },
-    { label: "End Date", value: "end_date" },
-    { label: "Episodes", value: "episodes" },
-    { label: "A-Z", value: "alphabetical" },
-    { label: "Popularity", value: "popularity" },
-];
-
 function FiltersForSeeMorePage({ genre, setGenre }) {
 
     const [sortDropdownOpen, setSortDropdownOpen] = useState(false);

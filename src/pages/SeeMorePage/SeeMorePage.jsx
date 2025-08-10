@@ -7,16 +7,24 @@ import "../../styles/seeMorePage.css"
 import Pagination from "../../components/Pagination";
 
 const SeeMorePage = () => {
-    const [genre, setGenre] = useState("");
     const { categoryType } = useParams()
-    const [page, setPage] = useState(1);
     const [isResettingFilters, setIsResettingFilters] = useState(false);
 
     const {
         isFavorite,
         handleAddToFavorites,
         isLoading,
+        genreForSeeMorePage,
+        setGenreForSeeMorePage,
+        setSeeMorePageIsOpen,
+        sideBarAnimepage,
+        setSideBarAnimepage,
+
     } = useContext(AnimeContext);
+
+    useEffect(() => {
+        setSeeMorePageIsOpen(categoryType);
+    }, [categoryType]);
 
     const [animeList, setAnimeList] = useState([]);
 
@@ -30,33 +38,22 @@ const SeeMorePage = () => {
                     sort: "asc",
                 };
             case "popular":
-            default:
                 return {
                     title: "Most Popular Anime",
                     status: "",
                     orderBy: "popularity",
                     sort: "asc",
                 };
+            case "airing":
+            default:
+                return {
+                    title: "Top Airing Anime",
+                    status: "airing",
+                    orderBy: "score",
+                    sort: "desc",
+                };
         }
     }, [categoryType]);
-
-    useEffect(() => {
-        setIsResettingFilters(true);
-        setGenre("");
-        setPage(1);
-        setAnimeList([]);
-
-        const timeout = setTimeout(() => {
-            setIsResettingFilters(false);
-        }, 0);
-
-        return () => clearTimeout(timeout);
-    }, [categoryType]);
-
-
-    useEffect(() => {
-        setPage(1);
-    }, [genre]);
 
 
 
@@ -90,8 +87,8 @@ const SeeMorePage = () => {
 
             {!isResettingFilters && (
                 <FiltersForSeeMorePage
-                    genre={genre}
-                    setGenre={setGenre}
+                    genre={genreForSeeMorePage}
+                    setGenre={setGenreForSeeMorePage}
                 />
             )}
 
@@ -99,33 +96,32 @@ const SeeMorePage = () => {
                 <p>Loading...</p>
             ) : (
                 <div className="masonry-container">
-                {columns.map((column, colIndex) => (
-                    <div key={colIndex} className="masonry-column">
-                        {column.map((anime) => (
-                            <AnimeCard
-                                key={anime.mal_id}
-                                anime={anime}
-                                isFavorite={isFavorite}
-                                onFavoriteToggle={handleAddToFavorites}
-                                showAddButton={true}
-                            />
-                        ))}
-                    </div>
-                ))}
-            </div>
+                    {columns.map((column, colIndex) => (
+                        <div key={colIndex} className="masonry-column">
+                            {column.map((anime) => (
+                                <AnimeCard
+                                    key={anime.mal_id}
+                                    anime={anime}
+                                    isFavorite={isFavorite}
+                                    onFavoriteToggle={handleAddToFavorites}
+                                    showAddButton={true}
+                                />
+                            ))}
+                        </div>
+                    ))}
+                </div>
             )}
-            
-
 
             <Pagination
                 animeList={animeList}
-                genre={genre}
+                genre={genreForSeeMorePage}
                 status={status}
                 orderBy={orderBy}
                 sort={sort}
                 setAnimeList={setAnimeList}
-                page={page}
-                setPage={setPage}
+                page={sideBarAnimepage}
+                setPage={setSideBarAnimepage}
+                isResettingFilters={isResettingFilters}
             />
 
         </div>

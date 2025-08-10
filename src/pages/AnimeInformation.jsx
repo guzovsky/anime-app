@@ -6,13 +6,18 @@ import { removeAutoPlay } from '../components/utils/urlUtils';
 import { AnimeInfo, InfoList, RelationsList } from '../components/AnimeInfo';
 import { formatDate } from "../components/utils/dateUtils";
 import AnimeContext from "../contexts/AnimeContext";
+import { HeartPlus, HeartMinus, CircleX, } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 function AnimeInformation() {
+    const navigate = useNavigate();
+
     const {
         setAnimeCardIsOpen,
         handleAddToFavorites,
         isFavorite
     } = useContext(AnimeContext)
+
 
     const { id } = useParams();
     const [anime, setAnime] = useState(null);
@@ -35,8 +40,6 @@ function AnimeInformation() {
 
     if (!anime) return <p className="loading-msg">Loading...</p>;
 
-    const showAddButton = true
-
     return (
 
         <div className="anime-info-page">
@@ -45,6 +48,13 @@ function AnimeInformation() {
                 <p className="anime-info-title-jp">Japanese: {anime.title_japanese}</p>
                 <p className="anime-info-title-en">English: {anime.title_english}</p>
             </div>
+
+            <button 
+            className="anime-info-close-btn"
+            onClick={() => {
+                setAnimeCardIsOpen(null)
+                navigate(-1)
+            }}><CircleX size={25}/></button>
 
             <div className="anime-info-main">
                 <div className="anime-info-image-container">
@@ -55,14 +65,14 @@ function AnimeInformation() {
                     />
                 </div>
 
-                <div className="favorite-btn-container">
+                <div className="anime-info-favorite-btn-container">
                     {isFavorite(anime) ? (
                         <button onClick={() => handleAddToFavorites(anime)} className="remove-btn">
-                            Remove from Favorites
+                            <HeartMinus />
                         </button>
                     ) : (
                         <button onClick={() => handleAddToFavorites(anime)} className="add-btn">
-                            Add to Favorites
+                            <HeartPlus />
                         </button>
                     )}
                 </div>
