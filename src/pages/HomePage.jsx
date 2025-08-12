@@ -6,7 +6,7 @@ import ResultsHeader from "../components/ResultsHeader";
 import Results from "../components/Results";
 import '../styles/general.css';
 import SearchedResultPagination from "../components/SearchedResultPagination";
-import Carousel from "../components/carousel/Carousel";
+import Carousel from "../components/Carousel/Carousel";
 
 
 function HomePage() {

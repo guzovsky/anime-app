@@ -4,7 +4,7 @@ import "./sideBar.css";
 import SideBarCategories from "./SidebarCategories";
 import { CSSTransition } from "react-transition-group";
 
-function SideBar() {
+function Sidebar() {
     const nodeRef = useRef(null);
 
     const {
@@ -63,4 +63,4 @@ function SideBar() {
     )
 }
 
-export default SideBar
+export default Sidebar

@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import SideBar from "./components/sidebar/Sidebar.jsx";
+import Sidebar from "./components/Sidebar/Sidebar";
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import FavoritesPage from "./pages/Favorites";
@@ -11,7 +11,7 @@ function App() {
 
   return (
     <>
-      <SideBar />
+      <Sidebar />
       <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
