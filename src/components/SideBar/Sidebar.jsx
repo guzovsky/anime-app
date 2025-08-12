@@ -1,7 +1,7 @@
 import { useContext, useRef } from "react";
 import AnimeContext from "../../contexts/AnimeContext";
 import "./sideBar.css";
-import SideBarCategories from "./SideBarCategories";
+import SideBarCategories from "./SidebarCategories";
 import { CSSTransition } from "react-transition-group";
 
 function SideBar() {

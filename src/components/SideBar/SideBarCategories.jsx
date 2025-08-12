@@ -1,6 +1,6 @@
 import { useContext, useRef, useState } from "react";
 import AnimeContext from "../../contexts/AnimeContext";
-import SideBarAnimeCards from "./SideBarAnimeCards";
+import SideBarAnimeCards from "./SidebarAnimeCards";
 import "./sideBarCategories.css";
 import { CSSTransition } from "react-transition-group";
 import { Link, useNavigate } from "react-router-dom";
