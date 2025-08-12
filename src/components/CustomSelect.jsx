@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
+import { RotateCcw } from 'lucide-react';
 
-function CustomSelect({ name, options, value, onChange }) {
+function CustomSelect({ name, options, value, onChange, genresFailed, fetchGenres, genresLoading }) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -24,20 +25,27 @@ function CustomSelect({ name, options, value, onChange }) {
             </button>
 
             {isOpen && (
-                <div className="custom-options-list">
-                    {options.map((opt) => (
-                        <button
-                            key={opt.value}
-                            className={`custom-option ${opt.value === value ? "active" : ""}`}
-                            onClick={() => {
-                                onChange({ target: { name, value: opt.value } });
-                                setIsOpen(false);
-                            }}
-                        >
-                            {opt.label}
-                        </button>
-                    ))}
-                </div>
+                !genresFailed ?
+                    <div className="custom-options-list">
+                        {options.map((opt) => (
+                            <button
+                                key={opt.value}
+                                className={`custom-option ${opt.value === value ? "active" : ""}`}
+                                onClick={() => {
+                                    onChange({ target: { name, value: opt.value } });
+                                    setIsOpen(false);
+                                }}
+                            >
+                                {opt.label}
+                            </button>
+                        ))}
+                    </div>
+                    :
+                    <div className="custom-options-list error">
+                        <h4>An error has occurred while fetching genres.</h4>
+                        <p>Please try again.</p>
+                        <button onClick={() => fetchGenres()} disabled={genresLoading}><RotateCcw /></button>
+                    </div>
             )}
         </div>
     );

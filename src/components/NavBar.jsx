@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import AnimeContext from "../contexts/AnimeContext";
 import '../styles/navBar.css';
 import { CSSTransition } from "react-transition-group";
-import { TableOfContents, House, HeartPlus, Info, PanelRightOpen, LayoutPanelTop } from 'lucide-react';
+import { TableOfContents, House, HeartPlus, Info, PanelRightOpen, LayoutPanelTop, ScrollText, } from 'lucide-react';
 
 function NavBar() {
     const nodeRef = useRef(null);
@@ -17,8 +17,7 @@ function NavBar() {
         setCurrentPage,
         setTotalPages,
         setIsSidebarOpen,
-        hasLoadedSidebarData,
-        fetchSidebarAnime,
+        isSidebarOpen,
         seeMorePageIsOpen,
     } = useContext(AnimeContext);
 
@@ -49,16 +48,13 @@ function NavBar() {
 
 
     const handleSidebarToggle = () => {
-        if (!hasLoadedSidebarData) {
-            fetchSidebarAnime();
-        }
         setIsSidebarOpen(prev => !prev);
     };
 
 
     return (
         <>
-            {!showNav && (
+            {!showNav && !isSidebarOpen && (
                 <div className="open-navbar-container">
                     <button onClick={() => setShowNav(true)}><PanelRightOpen size={22} /></button>
                 </div>
@@ -133,6 +129,15 @@ function NavBar() {
                             className={`nav-link ${location.pathname === '/favorites' ? 'active' : ''}`}
                         >
                             <HeartPlus size={28} />
+                        </Link>
+                    </div>
+
+                    <div>
+                        <Link
+                            to="/custom-lists"
+                            className={`nav-link ${location.pathname === '/custom-lists' ? 'active' : ''}`}
+                        >
+                            <ScrollText size={28} />
                         </Link>
                     </div>
 

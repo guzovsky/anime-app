@@ -5,7 +5,7 @@ import AnimeContext from "../contexts/AnimeContext";
 function Results() {
 
   const {
-    displayedAnime,
+    animeList,
     handleAddToFavorites,
     isFavorite,
   } = useContext(AnimeContext)
@@ -28,7 +28,7 @@ function Results() {
 
   const columns = Array.from({ length: columnsCount }, () => []);
 
-  displayedAnime.forEach((anime, index) => {
+  animeList.forEach((anime, index) => {
     columns[index % columnsCount].push(anime);
   });
 

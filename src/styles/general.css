@@ -58,8 +58,10 @@ h1 {
     transition: transform 0.2s ease;
 }
 
-.anime-card:hover {
-    transform: translateY(-5px);
+@media (hover: hover) {
+   .anime-card:hover {
+        transform: translateY(-5px);
+    }
 }
 
 .anime-image {
@@ -173,12 +175,14 @@ h1 {
     transition: background-color 0.2s ease;
 }
 
-.remove-btn:hover {
+.remove-btn:active {
     background-color: #a13838;
 }
 
-.add-btn:hover, .pagination button:hover, .load-more-airing-anime-btn:hover {
-    background-color: #1b4f93;
+@media (hover: hover) {
+    .add-btn:hover, .pagination button:hover, .load-more-airing-anime-btn:hover {
+        background-color: #1b4f93;
+    }
 }
 
 .mobile-info-line {

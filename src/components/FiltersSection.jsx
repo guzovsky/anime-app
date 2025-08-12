@@ -32,7 +32,7 @@ const SORT_OPTIONS = [
 
 function FiltersSection({ onSearch }) {
     const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
-    const { animeGenres, filters, setFilters } = useContext(AnimeContext);
+    const { animeGenres, filters, setFilters, genresFailed, fetchGenres, genresLoading} = useContext(AnimeContext);
     const dropdownRef = useRef(null);
     const isAllEmpty = [filters.query.trim(), filters.status, filters.type, filters.genre, filters.sort].every(val => val === "");
 
@@ -73,6 +73,9 @@ function FiltersSection({ onSearch }) {
                 />
 
                 <CustomSelect
+                    genresFailed={genresFailed}
+                    fetchGenres={fetchGenres}
+                    genresLoading={genresLoading}
                     name="genre"
                     value={filters.genre}
                     onChange={onFilterChange}

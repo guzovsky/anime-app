@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom";
 import "./carousel.css";
+import { useContext } from "react";
+import AnimeContext from "../../contexts/AnimeContext";
 import { HeartPlus, HeartMinus } from 'lucide-react';
 
 function CarouselAnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true }) {
+
+    const {
+        setAnimeCardIsOpen,
+    } = useContext(AnimeContext)
+
     return (
         <div className="carousel-anime-card">
             <Link

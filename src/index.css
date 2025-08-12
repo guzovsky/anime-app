@@ -7,6 +7,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box; /* Crucial for consistent layout */
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* 2. Document & Root Element Defaults. */
@@ -18,6 +19,7 @@ html {
     -moz-osx-font-smoothing: grayscale; /* Firefox font rendering */
     scroll-behavior: smooth; /* Smooth scrolling for anchor links */
     text-rendering: optimizeLegibility; /* Can improve font rendering in some browsers */
+    overflow-y: scroll;
 }
 
 /* 3. Body Styling & Global Layout */
@@ -59,6 +61,7 @@ button {
     cursor: pointer; /* Indicates interactivity */
     background-color: transparent;
     border: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Anchor Tag Improvements */

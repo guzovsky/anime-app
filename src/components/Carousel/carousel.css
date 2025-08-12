@@ -3,13 +3,9 @@
     max-width: 60rem;
     width: 100%;
     margin-top: -1rem;
-    padding: 1rem;
+    padding: 0 1rem;
     position: relative;
     overflow: hidden;
-}
-
-h2:has(+ .carousel-container) {
-  margin-top: 1rem;
 }
 
 .carousel-fade-left,
@@ -35,11 +31,13 @@ h2:has(+ .carousel-container) {
  
  .carousel {
     margin: 0 auto;
-    padding: 20px 0;
     width: 100%;
     overflow: hidden;
     display: flex;
-    &:hover .group {
+}
+
+@media (hover: hover) {
+    .carousel:hover .group {
         animation-play-state: paused;
     }
 }
@@ -77,6 +75,7 @@ h2:has(+ .carousel-container) {
     overflow: hidden;
     box-shadow: 0 4px 12px #00000080;
     transition: transform 0.2s ease;
+    margin: 1rem 0;
 }
 
 .carousel-anime-card:hover {
@@ -192,4 +191,26 @@ h2:has(+ .carousel-container) {
 
 .carousel-add-btn:hover {
     background-color: #1b4f93;
+}
+
+.carousel-error-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    padding: 1rem;
+    max-width: 60rem;
+    gap: 10px;
+}
+
+.carousel-error-container button {
+    color: white;
+}
+
+.carousel-header-container {
+    padding: 2rem 0 ;
+}
+
+.carousel-header-container h2 {
+    text-decoration: underline;
 }

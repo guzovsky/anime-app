@@ -118,7 +118,7 @@
     border: none;
     color: #eee;
     font-size: 1rem;
-    text-align: left;
+    text-align: left; 
     cursor: pointer;
 }
 
@@ -144,4 +144,17 @@
     .select-elements-container {
         grid-template-columns: 1fr;
     }
+}
+
+.custom-options-list.error {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+.custom-options-list.error button {
+    color: white;
 }
