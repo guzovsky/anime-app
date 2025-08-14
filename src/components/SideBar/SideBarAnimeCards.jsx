@@ -3,7 +3,7 @@ import AnimeContext from "../../contexts/AnimeContext";
 import { Link } from "react-router-dom";
 import { HeartPlus, HeartMinus } from 'lucide-react';
 
-function SideBarAnimeCards({ anime, setIsSidebarOpen, isFavorite, onFavoriteToggle, showAddButton = true }) {
+function SidebarAnimeCards({ anime, setIsSidebarOpen, isFavorite, onFavoriteToggle, showAddButton = true }) {
     const { setAnimeCardIsOpen } = useContext(AnimeContext);
 
     return (
@@ -34,4 +34,4 @@ function SideBarAnimeCards({ anime, setIsSidebarOpen, isFavorite, onFavoriteTogg
     );
 }
 
-export default SideBarAnimeCards;
+export default SidebarAnimeCards;

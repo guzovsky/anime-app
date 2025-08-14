@@ -1,10 +1,13 @@
 import { useContext } from "react";
 import AnimeContext from "../contexts/AnimeContext";
 import { Link } from "react-router-dom";
-import { HeartPlus, HeartMinus } from 'lucide-react';
+import { HeartPlus, HeartMinus, ListPlus, ListCheck } from 'lucide-react';
+import AddAnimeToListsButtonDropDown from "./AddAnimeToListsButtonDropDown";
 
 function AnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true }) {
-    const { setAnimeCardIsOpen } = useContext(AnimeContext);
+    const { setAnimeCardIsOpen, addAnimeToListsButtonDropDownIsOpen, setAddAnimeToListsButtonDropDownIsOpen, isAddedToAList, } = useContext(AnimeContext);
+
+    const isSaved = isAddedToAList(anime)
 
     return (
         <div className="anime-card">
@@ -47,8 +50,27 @@ function AnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true }
                     ) : (
                         <button onClick={() => onFavoriteToggle(anime)} className="remove-btn"><HeartMinus /></button>
                     )}
+                    <button
+                        onClick={() =>
+                            setAddAnimeToListsButtonDropDownIsOpen(prev =>
+                                prev === anime.mal_id ? null : anime.mal_id
+                            )
+                        }
+                        className="add-to-lists-btn"
+                    >
+                        {isSaved ? (
+                            <ListCheck size={29} />
+                        ) : (
+                            <ListPlus size={29} />
+                        )}
+                        
+                    </button>
                 </div>
             </div>
+
+
+            <AddAnimeToListsButtonDropDown anime={anime} />
+
         </div>
     );
 }

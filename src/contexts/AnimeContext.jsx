@@ -33,15 +33,19 @@ function sortAlphabetically(animeList, direction = "asc") {
 
 
 
+
 export function AnimeProvider({ children }) {
     const [animeCardIsOpen, setAnimeCardIsOpen] = useState(null);
     const [seeMorePageIsOpen, setSeeMorePageIsOpen] = useState(null)
+    const [editingListId, setEditingListId] = useState(null)
+    const [addAnimeToListsButtonDropDownIsOpen, setAddAnimeToListsButtonDropDownIsOpen] = useState(null)
 
     const [animeList, setAnimeList] = useState([]);
     const [topAnime, setTopAnime] = useState([]);
     const [topUpcomingAnime, setTopUpcomingAnime] = useState([])
     const [mostPopularAnime, setMostPopularAnime] = useState([])
     const [animeGenres, setAnimeGenres] = useState([]);
+    const [customLists, setCustomLists] = useState(JSON.parse(localStorage.getItem('customLists')) || [])
 
     const [hasSearched, setHasSearched] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -64,6 +68,7 @@ export function AnimeProvider({ children }) {
     const [sideBarAnimePageCache, setSideBarAnimePageCache] = useState(1);
 
     const [genreForSeeMorePage, setGenreForSeeMorePage] = useState("");
+    const [customListInputValue, setCustomListInputValue] = useState("");
 
 
     const [filters, setFilters] = useState({
@@ -88,6 +93,26 @@ export function AnimeProvider({ children }) {
         setFavorites(updated);
         localStorage.setItem('favorites', JSON.stringify(updated));
     };
+
+
+
+
+    const isAddedToAList = (anime) =>
+        customLists.some(list => list.anime.some(a => a.mal_id === anime.mal_id));
+
+    const createCustomList = (listName) => {
+        if (!listName.trim()) return;
+        setCustomLists((prev) => [...prev, { name: listName.trim(), anime: [] }]);
+    };
+
+    useEffect(() => {
+        localStorage.setItem('customLists', JSON.stringify(customLists));
+    }, [customLists]);
+
+    const deleteCustomList = (indexToDelete) => {
+        const updated = customLists.filter((list, index) => index !== indexToDelete)
+        setCustomLists(updated)
+    }
 
 
 
@@ -435,6 +460,18 @@ export function AnimeProvider({ children }) {
         mostPopularAnime,
         setMostPopularAnime,
 
+        addAnimeToListsButtonDropDownIsOpen,
+        setAddAnimeToListsButtonDropDownIsOpen,
+
+        customLists,
+        setCustomLists,
+
+        customListInputValue,
+        setCustomListInputValue,
+
+        editingListId,
+        setEditingListId,
+
         // Functions
         removeDuplicates,
         removeBuggedAnime,
@@ -449,6 +486,11 @@ export function AnimeProvider({ children }) {
         fetchGenres,
 
         resetSearch,
+
+        createCustomList,
+        deleteCustomList,
+
+        isAddedToAList,
 
         // Refs
         hasFetchedTopAnime,

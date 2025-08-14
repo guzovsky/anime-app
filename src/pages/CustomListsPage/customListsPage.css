@@ -1,5 +1,6 @@
 .container.custom-lists-page {
     gap: 2rem;
+    padding: 1rem;
 }
 
 .custom-list-container {
@@ -7,21 +8,27 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    gap: 4rem;
+    
 }
 
 .input-custom-list-container {
     max-width: 60rem;
     width: 100%;
     display: flex;
-    padding: 1rem;
+    padding: 0 1rem;
+    background-color: #14151b;
+    box-shadow: 0 4px 12px #00000080;
 }
 
 .input-custom-list-container input {
     width: 100%;
     background-color: transparent;
     border: none;
+    color: white;
+}
+
+.input-custom-list-container button {
     color: white;
 }
 
@@ -32,10 +39,170 @@
     gap: 1rem;
 }
 
+.custom-list-title-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+
+.custom-list-title-container h2 {
+    flex: 1;
+    margin: 0;
+    word-break: break-word;
+}
+
+.custom-list-title-container div {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    margin: auto 0;
+}
+
+.custom-list-title-container button {
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
 
 .custom-list-anime-container {
     display: flex;
     gap: 1rem;
-    padding: 0 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    width: 100%;
+    overflow: hidden;
+    overflow-x: auto;
+    max-height: 25rem;
+}
+
+.custom-list-anime-container p {
+    margin: 0 auto;
+}
+
+.custom-list-anime-container-anime-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 10rem;
+    height: 100%;
+    background-color: #14151b;
+    color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px #00000080;
+    transition: transform 0.2s ease;
+    position: relative;
+}
+
+@media (hover: hover) {
+    .custom-list-anime-container-anime-card:hover {
+        transform: translateY(-5px);
+    }
+}
+
+.custom-list-anime-container-anime-image {
+    position: relative;
+}
+
+.custom-list-anime-container-anime-image img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.custom-list-anime-container-anime-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding: 0.8rem;
+}
+
+.custom-list-anime-container-anime-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.2rem;
+    display: -webkit-box;
+    display: box;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+}
+
+.custom-list-anime-container-favorite-btn-container {
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+}
+
+.custom-list-anime-container-add-btn {
+    background-color: #2e86de;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    display: flex;
     justify-content: center;
+}
+
+.custom-list-anime-container-remove-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #ff5c5c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+@media (hover: hover) {
+    .custom-list-anime-container-add-btn:hover {
+        background-color: #1b4f93;
+    }
+
+    .custom-list-anime-container-remove-btn:hover {
+        background-color: #a13838;
+    }
+}
+
+.custom-list-anime-container-add-to-lists-btn {
+    color: white;
+    margin-left: 10px;
+}
+
+
+
+
+
+.custom-list-anime-container::-webkit-scrollbar-thumb {
+    background-color: #444a60;
+    border-radius: 8px;
+    border: 2px solid #1a1d2c;
+}
+
+.custom-list-anime-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.custom-list-anime-container::-webkit-scrollbar-thumb {
+    background-color: #444a60;
+    border-radius: 8px;
+    border: 2px solid #1a1d2c;
+}
+
+.custom-list-anime-container::-webkit-scrollbar-thumb:hover {
+    background-color: #5b6180;
+    cursor: pointer;
 }

@@ -59,7 +59,7 @@ function AnimeInformation() {
             <div className="anime-info-main">
                 <div className="anime-info-image-container">
                     <img
-                        src={anime.images.jpg.image_url}
+                        src={anime.images.jpg.large_image_url}
                         alt={anime.title}
                         className="anime-info-image"
                     />

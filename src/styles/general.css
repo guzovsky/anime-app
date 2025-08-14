@@ -56,6 +56,7 @@ h1 {
     overflow: hidden;
     box-shadow: 0 4px 12px #00000080;
     transition: transform 0.2s ease;
+    position: relative;
 }
 
 @media (hover: hover) {
@@ -139,6 +140,7 @@ h1 {
 .favorite-btn-container {
     margin-top: 1rem;
     text-align: center;
+    display: flex;
 }
 
 .add-btn, .pagination button, .load-more-airing-anime-btn {
@@ -183,6 +185,11 @@ h1 {
     .add-btn:hover, .pagination button:hover, .load-more-airing-anime-btn:hover {
         background-color: #1b4f93;
     }
+}
+
+.add-to-lists-btn {
+    color: white;
+    margin-left: 10px;
 }
 
 .mobile-info-line {
@@ -275,4 +282,115 @@ h1 {
     }
 
     
+}
+
+.add-anime-to-lists-dropdown {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #1a1d2c;
+    border-radius: 8px;
+    padding-top: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    width: 100%;
+    max-height: 250px;
+    word-break: break-word;
+}
+
+.add-anime-to-lists-dropdown p {
+    padding: 0 0.8rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add-anime-to-lists-dropdown span {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.add-anime-to-lists-dropdown form {
+    width: 100%;
+}
+
+.add-anime-to-lists-dropdown form input {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 1rem 0;
+}
+
+.add-anime-to-lists-dropdown h3 {
+    padding: 0.6rem 1rem;
+}
+
+.dropdown-create-new-list-btn {
+    color: white;
+    min-height: 30px;
+    min-width: 30px;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.add-anime-to-lists-dropdown div {
+    display: flex;
+    width: 100%;
+}
+
+.close-add-anime-to-lists-dropdown-btn {
+    color: white;
+    margin-bottom: auto;
+    min-height: 30px;
+    min-width: 30px;
+    margin-left: auto;
+}
+
+.add-anime-to-lists-dropdown .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.6rem 1rem;
+    color: #eee;
+    font-size: 1rem;
+    text-align: left; 
+    flex: 1;
+    margin: 0;
+    word-break: break-word;
+    align-items: center;
+}
+
+.add-anime-to-lists-dropdown .option-btn span {
+    flex-shrink: 0;
+    margin: auto 0;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.add-anime-to-lists-dropdown .option-btn:hover,
+.add-anime-to-lists-dropdown .option-btn.active {
+    background-color: #2b2f44;
+}
+
+.add-anime-to-lists-dropdown::-webkit-scrollbar {
+    width: 10px;
+}
+
+.add-anime-to-lists-dropdown::-webkit-scrollbar-thumb {
+    background-color: #444a60;
+    border-radius: 8px;
+    border: 2px solid #1a1d2c;
+}
+
+.add-anime-to-lists-dropdown::-webkit-scrollbar-thumb:hover {
+    background-color: #5b6180;
+    cursor: pointer;
+}
+
+.add-anime-to-lists-dropdown .option-btn.already-added {
+    background-color: #12141d;
 }
