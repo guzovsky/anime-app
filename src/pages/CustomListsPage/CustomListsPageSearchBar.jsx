@@ -5,7 +5,7 @@ import AnimeContext from "../../contexts/AnimeContext"
 function CustomListsPageSearchBar() {
     const {
         createCustomList,
-        customListInputValue, 
+        customListInputValue,
         setCustomListInputValue,
 
     } = useContext(AnimeContext)
@@ -17,13 +17,32 @@ function CustomListsPageSearchBar() {
     return (
         <div className='input-custom-list-container'>
             <Search />
-            <input
-                placeholder='Search for a list...'
-                type="text"
-                value={customListInputValue}
-                onChange={handleChange}
-            />
-            <button onClick={() => {createCustomList(customListInputValue)}}><Plus /></button>
+
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    createCustomList(customListInputValue)
+                    setCustomListInputValue("")
+                }}
+            >
+
+                <input
+                    maxLength={80}
+                    placeholder='Search for a list...'
+                    type="text"
+                    value={customListInputValue}
+                    onChange={handleChange}
+                />
+
+            </form>
+
+            <button
+                onClick={() => {
+                    createCustomList(customListInputValue)
+                    setCustomListInputValue("")
+                }}
+            ><Plus /></button>
+
         </div>
     )
 }

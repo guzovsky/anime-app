@@ -2,7 +2,7 @@ import AnimeContext from "../contexts/AnimeContext";
 import { useRef, useEffect, useContext, useState } from "react";
 import { BookmarkX, CircleMinus, CirclePlus, Plus, Check } from 'lucide-react';
 
-function AddAnimeToListsButtonDropDown({ anime }) {
+function AddAnimeToListsButtonDropDown({ anime, listId }) {
     const {
         customLists,
         setCustomLists,
@@ -33,7 +33,7 @@ function AddAnimeToListsButtonDropDown({ anime }) {
 
     return (
         <>
-            {addAnimeToListsButtonDropDownIsOpen === anime.mal_id && (
+            {addAnimeToListsButtonDropDownIsOpen === `${listId}-${anime.mal_id}` && (
                 <div ref={dropdownRef} className="add-anime-to-lists-dropdown">
                     <div>
                         <p>Would you like to add:<span>{anime.title}</span>to any of your lists?</p>
@@ -48,8 +48,8 @@ function AddAnimeToListsButtonDropDown({ anime }) {
                                 {customLists.length > 0 ?
                                     <h3>- Your lists:</h3> :
                                     <h3>- You don't have any Custom Lists yet. Try creating some!</h3>
-                            }
-                                
+                                }
+
                                 <button onClick={() => setIsCreatingANewList(true)} className="dropdown-create-new-list-btn"><Plus /></button>
                             </>
                         ) : (
@@ -63,6 +63,7 @@ function AddAnimeToListsButtonDropDown({ anime }) {
                                     }}
                                 >
                                     <input
+                                        maxLength={80}
                                         placeholder="Your new list name..."
                                         type="text"
                                         value={createNewListInputValue}

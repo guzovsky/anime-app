@@ -1,13 +1,13 @@
 import { useContext, useRef, useState } from "react";
 import AnimeContext from "../../contexts/AnimeContext";
-import SidebarAnimeCards from "./SidebarAnimeCards";
+import SidebarAnimeCards from "./SideBarAnimeCards";
 import "./sideBarCategories.css";
 import { CSSTransition } from "react-transition-group";
 import { Link, useNavigate } from "react-router-dom";
 import { RotateCcw, MoveDown } from 'lucide-react';
 
 
-const SidebarCategories = ({ title, animeToDisplay, statusFilter }) => {
+const SideBarCategories = ({ title, animeToDisplay, statusFilter }) => {
     const nodeRef = useRef(null);
 
     const [isOpen, setIsOpen] = useState(false);
@@ -97,4 +97,4 @@ const SidebarCategories = ({ title, animeToDisplay, statusFilter }) => {
     );
 };
 
-export default SidebarCategories;
+export default SideBarCategories;

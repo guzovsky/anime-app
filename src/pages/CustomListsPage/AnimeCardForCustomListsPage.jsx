@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { HeartPlus, HeartMinus, ListPlus, ListCheck } from 'lucide-react';
 import AddAnimeToListsButtonDropDown from "../../components/AddAnimeToListsButtonDropDown";
 
-function AnimeCardForCustomListsPage({ anime, isFavorite, onFavoriteToggle, showAddButton = true }) {
+function AnimeCardForCustomListsPage({ anime, isFavorite, onFavoriteToggle, showAddButton = true, listId }) {
     const { setAnimeCardIsOpen, setAddAnimeToListsButtonDropDownIsOpen, isAddedToAList, } = useContext(AnimeContext);
 
     const isSaved = isAddedToAList(anime)
@@ -41,7 +41,7 @@ function AnimeCardForCustomListsPage({ anime, isFavorite, onFavoriteToggle, show
                     <button
                         onClick={() =>
                             setAddAnimeToListsButtonDropDownIsOpen(prev =>
-                                prev === anime.mal_id ? null : anime.mal_id
+                                prev === `${listId}-${anime.mal_id}` ? null : `${listId}-${anime.mal_id}`
                             )
                         }
                         className="custom-list-anime-container-add-to-lists-btn"
@@ -55,7 +55,7 @@ function AnimeCardForCustomListsPage({ anime, isFavorite, onFavoriteToggle, show
                 </div>
             </div>
 
-            <AddAnimeToListsButtonDropDown anime={anime} />
+            <AddAnimeToListsButtonDropDown anime={anime} listId={listId} />
         </div>
 
     );

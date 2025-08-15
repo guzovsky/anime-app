@@ -1,5 +1,6 @@
 import { createContext, useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
 
 
 const AnimeContext = createContext();
@@ -97,22 +98,90 @@ export function AnimeProvider({ children }) {
 
 
 
+
+    const listExists = (listName) =>
+        customLists.some(list => list.name.toLowerCase().trim() === listName.toLowerCase().trim());
+
+
     const isAddedToAList = (anime) =>
         customLists.some(list => list.anime.some(a => a.mal_id === anime.mal_id));
 
+
+    const handleListsWithSameName = (listName) => {
+        const baseName = listName.trim();
+        const lowerBase = baseName.toLowerCase();
+
+        const count = customLists.filter(list => {
+            const lowerName = list.name.toLowerCase();
+            return lowerName === lowerBase || lowerName.startsWith(`${lowerBase} `);
+        }).length;
+
+        const newName = count === 0 ? baseName : `${baseName} ${count}`;
+
+        setCustomLists(prev => [
+            ...prev,
+            {
+                id: uuidv4(),
+                name: newName,
+                anime: [],
+                createdAt: new Date().toISOString(),
+            }
+        ]);
+    };
+
+
+
     const createCustomList = (listName) => {
         if (!listName.trim()) return;
-        setCustomLists((prev) => [...prev, { name: listName.trim(), anime: [] }]);
+
+        const newList = {
+            id: uuidv4(),
+            name: listName.trim(),
+            anime: [],
+            createdAt: new Date().toISOString(),
+        };
+
+        if (listExists(listName)) {
+            handleListsWithSameName(listName);
+            return;
+        }
+
+        setCustomLists(prev => [...prev, newList]);
     };
+
+
+
+    const editListName = (newName, id) => {
+        const trimmedName = newName.trim();
+        if (!trimmedName) return;
+
+        const newLists = [...customLists];
+
+        const count = customLists.filter((list) => {
+            if (list.id === id) return false;
+            return list.name.toLowerCase() === trimmedName.toLowerCase() ||
+                list.name.toLowerCase().startsWith(`${trimmedName.toLowerCase()} `);
+        }).length;
+
+        const index = newLists.findIndex(list => list.id === id);
+        if (index === -1) return;
+
+        newLists[index].name = count === 0 ? trimmedName : `${trimmedName} ${count}`;
+
+        setCustomLists(newLists);
+    };
+
+    const deleteCustomList = (id) => {
+        const updated = customLists.filter(list => list.id !== id);
+        setCustomLists(updated);
+    };
+
 
     useEffect(() => {
         localStorage.setItem('customLists', JSON.stringify(customLists));
     }, [customLists]);
 
-    const deleteCustomList = (indexToDelete) => {
-        const updated = customLists.filter((list, index) => index !== indexToDelete)
-        setCustomLists(updated)
-    }
+
 
 
 
@@ -491,6 +560,7 @@ export function AnimeProvider({ children }) {
         deleteCustomList,
 
         isAddedToAList,
+        editListName,
 
         // Refs
         hasFetchedTopAnime,

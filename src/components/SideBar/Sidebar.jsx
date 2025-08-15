@@ -1,10 +1,10 @@
 import { useContext, useRef } from "react";
 import AnimeContext from "../../contexts/AnimeContext";
 import "./sideBar.css";
-import SidebarCategories from "./SidebarCategories";
+import SideBarCategories from "./SideBarCategories";
 import { CSSTransition } from "react-transition-group";
 
-function Sidebar() {
+function SideBar() {
     const nodeRef = useRef(null);
 
     const {
@@ -36,17 +36,17 @@ function Sidebar() {
                     </div>
                     {!sideBarAnimeIsLoading ? (
                         <div className="sidebar-contents-container">
-                            <SidebarCategories
+                            <SideBarCategories
                                 title="Top Upcoming Anime"
                                 animeToDisplay={topUpcomingAnime}
                                 statusFilter="upcoming"
                             />
-                            <SidebarCategories
+                            <SideBarCategories
                                 title="Most Popular Anime"
                                 animeToDisplay={mostPopularAnime}
                                 statusFilter="popular"
                             />
-                            <SidebarCategories
+                            <SideBarCategories
                                 title="Top Airing Anime"
                                 animeToDisplay={topAnime}
                                 statusFilter="airing"
@@ -63,4 +63,4 @@ function Sidebar() {
     )
 }
 
-export default Sidebar
+export default SideBar
