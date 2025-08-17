@@ -1,74 +1,114 @@
-.carousel-container {
-    display: flex;
-    max-width: 60rem;
-    width: 100%;
-    margin-top: -1rem;
-    padding: 0 1rem;
+.carousel-wrapper {
     position: relative;
+    max-width: 80rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-container {
     overflow: hidden;
+    width: 100%;
+    position: relative;
+    padding: 1rem 0;
+}
+
+.carousel {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.4s ease-in-out;
+    padding: 0 2.2rem;
+}
+
+.carousel-control {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 20;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-control.prev {
+    left: 0;
+}
+
+.carousel-control.next {
+    right: 0;
+}
+
+@media (hover: hover) {
+    .carousel-control.prev:hover,
+    .carousel-control.next:hover {
+        transform: translateY(-50%) scale(1.1);
+    }
+}
+
+.carousel-control.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .carousel-fade-left,
 .carousel-fade-right {
     position: absolute;
     top: 0;
-    width: 3rem;
+    width: 4rem;
     height: 100%;
     z-index: 10;
     pointer-events: none;
+    transition: opacity 0.4s ease;
 }
 
 .carousel-fade-left {
     left: 0;
-    background: linear-gradient(to right, #12141d 70%, transparent);
+    background: linear-gradient(to right, #12141d 50%, transparent);
+    opacity: 1;
+}
+
+.carousel-fade-left.at-start {
+    opacity: 0;
 }
 
 .carousel-fade-right {
     right: 0;
-    background: linear-gradient(to left, #12141d 70%, transparent);
+    background: linear-gradient(to left, #12141d 50%, transparent);
+    opacity: 1;
 }
 
- 
- .carousel {
-    margin: 0 auto;
-    width: 100%;
-    overflow: hidden;
+.carousel-dots {
     display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 1rem;
 }
 
-@media (hover: hover) {
-    .carousel:hover .group {
-        animation-play-state: paused;
-    }
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #555;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.group {
-    display: flex;
-    gap: 20px;
-    /* Add padding to the right to create a gap between the last and first card. */
-    padding-right: 20px;
-    will-change: transform; /* We should be nice to the browser - let it know what we're going to animate. */
-    animation: scrolling 100s linear infinite;
+.carousel-dot.active {
+    background-color: #2e86de;
 }
-
-@keyframes scrolling {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
-}
-
-
-
-
 
 .carousel-anime-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 16rem;
+    min-width: 16rem;
+    max-width: 27rem;
     background-color: #14151b;
     color: #fff;
     border-radius: 12px;
@@ -76,6 +116,20 @@
     box-shadow: 0 4px 12px #00000080;
     transition: transform 0.2s ease;
     margin: 1rem 0;
+    flex-shrink: 0;
+    position: relative;
+}
+
+@media (max-width: 450px) {
+    .carousel-anime-card {
+        max-width: 23rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .carousel-anime-card {
+        max-width: 16rem;
+    }
 }
 
 .carousel-anime-card:hover {
@@ -88,7 +142,7 @@
 
 .carousel-anime-image img {
     width: 100%;
-    height: 300px;
+    max-height: 350px;
     object-fit: cover;
 }
 
@@ -208,9 +262,67 @@
 }
 
 .carousel-header-container {
-    padding: 2rem 0 ;
+    margin: 2rem 0 10px 0;
+    display: inline-block
 }
 
 .carousel-header-container h2 {
     text-decoration: underline;
 }
+
+.carousel-favorite-btn-container {
+    display: flex;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+
+@media (max-width: 700px) {
+    .carousel {
+        padding: 0;
+        padding-right: 1.5rem;
+    }
+
+    .carousel-wrapper {
+        flex-direction: column;
+    }
+    
+    .carousel-control.prev,
+    .carousel-control.next {
+        position: static;
+        transform: none;
+        margin: 0 auto;
+    }
+    
+    .carousel-controls-bottom {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .carousel-container {
+        padding: 0;
+    }
+    
+    .carousel-wrapper > .carousel-control {
+        display: none;
+    }
+
+    .carousel-fade-left {
+        width: 0;
+    }
+
+    .carousel-fade-right {
+        width: 3rem;
+        background: linear-gradient(
+            to left,
+            #12141d 0%,
+            rgba(18, 20, 29, 0.8) 40%,
+            rgba(18, 20, 29, 0.5) 70%,
+            transparent 100%
+        );
+    }
+}
+
+

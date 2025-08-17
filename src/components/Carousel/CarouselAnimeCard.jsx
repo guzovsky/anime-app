@@ -2,20 +2,25 @@ import { Link } from "react-router-dom";
 import "./carousel.css";
 import { useContext } from "react";
 import AnimeContext from "../../contexts/AnimeContext";
-import { HeartPlus, HeartMinus } from 'lucide-react';
+import { HeartPlus, HeartMinus, ListPlus, ListCheck } from 'lucide-react';
+import AddAnimeToListsButtonDropDown from "../AddAnimeToListsButtonDropDown";
 
-function CarouselAnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true }) {
+function CarouselAnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true, id }) {
 
     const {
         setAnimeCardIsOpen,
+        setAddAnimeToListsButtonDropDownIsOpen,
+        isAddedToAList
     } = useContext(AnimeContext)
+
+    const isSaved = isAddedToAList(anime)
 
     return (
         <div className="carousel-anime-card">
             <Link
-                to={`/anime/${anime.mal_id}`}
+                to={`/anime/${id}`}
                 className="carousel-anime-image"
-                onClick={() => setAnimeCardIsOpen(anime.mal_id)}
+                onClick={() => setAnimeCardIsOpen(id)}
             >
                 <img src={anime.images.jpg.large_image_url} alt={anime.title} />
                 <div className="carousel-status-badge">{anime.status}</div>
@@ -51,8 +56,22 @@ function CarouselAnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton 
                     ) : (
                         <button onClick={() => onFavoriteToggle(anime)} className="carousel-remove-btn"><HeartMinus /></button>
                     )}
+                    <button
+                        onClick={() => {
+                            setAddAnimeToListsButtonDropDownIsOpen(prev =>
+                                prev.id === id && prev.type === 'home'
+                                    ? { id: null, type: null }
+                                    : { id: id, type: 'home' }
+                            );
+                        }}
+                        className="add-to-lists-btn"
+                    >
+                        {isSaved ? <ListCheck size={29} /> : <ListPlus size={29} />}
+                    </button>
                 </div>
             </div>
+
+            <AddAnimeToListsButtonDropDown anime={anime} />
         </div>
     );
 }

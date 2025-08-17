@@ -39,18 +39,16 @@ function AnimeCardForCustomListsPage({ anime, isFavorite, onFavoriteToggle, show
                         </button>
                     )}
                     <button
-                        onClick={() =>
+                        onClick={() => {
                             setAddAnimeToListsButtonDropDownIsOpen(prev =>
-                                prev === `${listId}-${anime.mal_id}` ? null : `${listId}-${anime.mal_id}`
-                            )
-                        }
+                                prev.id === anime.mal_id && prev.type === 'custom' && prev.listId === listId
+                                    ? { id: null, type: null }
+                                    : { id: anime.mal_id, type: 'custom', listId: listId }
+                            );
+                        }}
                         className="custom-list-anime-container-add-to-lists-btn"
                     >
-                        {isSaved ? (
-                            <ListCheck size={29} />
-                        ) : (
-                            <ListPlus size={29} />
-                        )}
+                        {isSaved ? <ListCheck size={29} /> : <ListPlus size={29} />}
                     </button>
                 </div>
             </div>

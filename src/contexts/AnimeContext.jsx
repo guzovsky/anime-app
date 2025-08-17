@@ -39,7 +39,7 @@ export function AnimeProvider({ children }) {
     const [animeCardIsOpen, setAnimeCardIsOpen] = useState(null);
     const [seeMorePageIsOpen, setSeeMorePageIsOpen] = useState(null)
     const [editingListId, setEditingListId] = useState(null)
-    const [addAnimeToListsButtonDropDownIsOpen, setAddAnimeToListsButtonDropDownIsOpen] = useState(null)
+    const [addAnimeToListsButtonDropDownIsOpen, setAddAnimeToListsButtonDropDownIsOpen] = useState({ id: null, type: null, listId: null });
 
     const [animeList, setAnimeList] = useState([]);
     const [topAnime, setTopAnime] = useState([]);

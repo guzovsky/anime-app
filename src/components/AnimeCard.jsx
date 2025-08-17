@@ -5,7 +5,7 @@ import { HeartPlus, HeartMinus, ListPlus, ListCheck } from 'lucide-react';
 import AddAnimeToListsButtonDropDown from "./AddAnimeToListsButtonDropDown";
 
 function AnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true }) {
-    const { setAnimeCardIsOpen, addAnimeToListsButtonDropDownIsOpen, setAddAnimeToListsButtonDropDownIsOpen, isAddedToAList, } = useContext(AnimeContext);
+    const { setAnimeCardIsOpen, setAddAnimeToListsButtonDropDownIsOpen, isAddedToAList, } = useContext(AnimeContext);
 
     const isSaved = isAddedToAList(anime)
 
@@ -51,19 +51,16 @@ function AnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true }
                         <button onClick={() => onFavoriteToggle(anime)} className="remove-btn"><HeartMinus /></button>
                     )}
                     <button
-                        onClick={() =>
+                        onClick={() => {
                             setAddAnimeToListsButtonDropDownIsOpen(prev =>
-                                prev === anime.mal_id ? null : anime.mal_id
-                            )
-                        }
+                                prev.id === anime.mal_id && prev.type === 'home'
+                                    ? { id: null, type: null }
+                                    : { id: anime.mal_id, type: 'home' }
+                            );
+                        }}
                         className="add-to-lists-btn"
                     >
-                        {isSaved ? (
-                            <ListCheck size={29} />
-                        ) : (
-                            <ListPlus size={29} />
-                        )}
-                        
+                        {isSaved ? <ListCheck size={29} /> : <ListPlus size={29} />}
                     </button>
                 </div>
             </div>

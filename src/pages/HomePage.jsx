@@ -39,11 +39,11 @@ function HomePage() {
             <FiltersSection onSearch={() => handleSearch(filters)} />
 
             {!hasSearched && (
-                <>
+                <div className="carousels-container">
                     <Carousel header="Top Airing Anime" animeList={topAnime} animeListFailed={topAnimeFailed} fetchFunction={fetchTopAnime} animeIsLoading={topAnimeIsLoading} statusFilter="airing" />
                     <Carousel header="Top Upcoming Anime" animeList={topUpcomingAnime} animeListFailed={sidebarDataFailed} fetchFunction={fetchSidebarAnime} animeIsLoading={sideBarAnimeIsLoading} statusFilter="upcoming" />
                     <Carousel header="Most Popular Anime" animeList={mostPopularAnime} animeListFailed={sidebarDataFailed} fetchFunction={fetchSidebarAnime} animeIsLoading={sideBarAnimeIsLoading} statusFilter="popular" />
-                </>
+                </div>
             )}
 
             {isLoading ? (

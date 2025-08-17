@@ -27,6 +27,15 @@ h1 {
     margin: 0 1rem;
 }
 
+.carousels-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+    margin: 1rem 0;
+    width: 100%;;
+}
+
 .masonry-container {
     display: flex;
     gap: 1rem;
