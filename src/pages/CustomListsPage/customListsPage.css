@@ -66,6 +66,24 @@
     cursor: pointer;
 }
 
+.list-info-and-edit-list-anime-btn-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.list-info-and-edit-list-anime-btn-container div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.list-info-and-edit-list-anime-btn-container button {
+    color: white;
+    min-width: 25px;
+}
+
+
 
 .custom-list-anime-container {
     display: flex;
@@ -95,6 +113,17 @@
     box-shadow: 0 4px 12px #00000080;
     transition: transform 0.2s ease;
     position: relative;
+}
+
+.custom-list-anime-container-remove-from-list-btn {
+    color: white;
+    position: absolute;
+    z-index: 99;
+    background-color: #ff5c5c;
+    padding: 0.3rem 0.4rem;
+    top: 4px;
+    left: 4px;
+    border-radius: 10px;
 }
 
 @media (hover: hover) {
@@ -172,7 +201,7 @@
         background-color: #1b4f93;
     }
 
-    .custom-list-anime-container-remove-btn:hover {
+    .custom-list-anime-container-remove-btn:hover, .custom-list-anime-container-remove-from-list-btn:hover {
         background-color: #a13838;
     }
 }
@@ -246,22 +275,60 @@
     align-items: center;    
 }
 
+.deletion-confirmation-container span {
+    text-decoration: underline;
+}
+
 .deletion-confirmation-buttons {
     display: flex;
     width: 100%;
     max-width: 20rem;
     align-items: center;
     justify-content: space-between;
+    padding: 0 1rem;
 }
 
 .deletion-confirmation-buttons button {
     color: white;
     background-color: #161616;
-    padding: 0.5rem 1rem;
+    padding: 0.8rem 1.5rem;
     border-radius: 10px;
     transition: background-color 0.4s ease;
 }
 
 .deletion-confirmation-buttons button:hover {
     background-color: #272727;
+}
+
+.full-screen-list-container {
+    position: relative;
+    padding: 1rem 0;
+}
+
+.close-full-screen-list {
+    position: fixed;
+    display: flex;
+    top: 12px;
+    right: 12px;
+    z-index: 99999999999;
+    background-color: black;
+    padding: 0.5rem;
+    border-radius: 100%;
+}
+
+.close-full-screen-list button {
+    color: white;
+}
+
+@keyframes shake {
+    0%   { transform: rotate(0deg); }
+    25%  { transform: rotate(-0.3deg); }
+    50%  { transform: rotate(0deg); }
+    75%  { transform: rotate(0.3deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.shake {
+    animation: shake 0.3s ease-in-out infinite;
+    transform-origin: center bottom;
 }

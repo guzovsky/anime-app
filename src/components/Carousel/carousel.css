@@ -132,8 +132,12 @@
     }
 }
 
-.carousel-anime-card:hover {
-    transform: translateY(-5px);
+
+
+@media (hover: hover) {
+    .carousel-anime-card:hover {
+        transform: translateY(-5px);
+    }
 }
 
 .carousel-anime-image {
@@ -239,13 +243,17 @@
     transition: background-color 0.2s ease;
 }
 
-.carousel-remove-btn:hover {
-    background-color: #a13838;
+@media (hover: hover) {
+    .carousel-remove-btn:hover {
+        background-color: #a13838;
+    }
+
+    .carousel-add-btn:hover {
+        background-color: #1b4f93;
+    }
 }
 
-.carousel-add-btn:hover {
-    background-color: #1b4f93;
-}
+
 
 .carousel-error-container {
     display: flex;

@@ -16,7 +16,6 @@ const Carousel = ({ header, animeList, animeListFailed, fetchFunction, animeIsLo
 
     const carouselRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [touchStartX, setTouchStartX] = useState(null);
     const [isAtStart, setIsAtStart] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
 
@@ -27,7 +26,6 @@ const Carousel = ({ header, animeList, animeListFailed, fetchFunction, animeIsLo
     const isDropdownOpenInThisCarousel = clonedList.some(anime =>
         addAnimeToListsButtonDropDownIsOpen.id === anime.mal_id
     );
-
 
     const updateIsMobile = () => {
         if (window.innerWidth <= 700) {
@@ -91,40 +89,6 @@ const Carousel = ({ header, animeList, animeListFailed, fetchFunction, animeIsLo
         setCurrentIndex(index);
     };
 
-    const handleTouchStart = (e) => {
-        setTouchStartX(e.touches[0].clientX);
-    };
-
-    const handleTouchMove = (e) => {
-        if (touchStartX === null) return;
-        const currentTouchX = e.touches[0].clientX;
-        const diff = touchStartX - currentTouchX;
-
-        const cardWidth = carouselRef.current.children[0].offsetWidth;
-        const gapWidth = 20;
-        const currentTransform = currentIndex * (cardWidth + gapWidth);
-        const newTransform = currentTransform + diff;
-        carouselRef.current.style.transform = `translateX(-${newTransform}px)`;
-        carouselRef.current.style.transition = 'none';
-    };
-
-    const handleTouchEnd = (e) => {
-        if (touchStartX === null) return;
-        const endTouchX = e.changedTouches[0].clientX;
-        const diff = touchStartX - endTouchX;
-
-        carouselRef.current.style.transition = 'transform 0.4s ease-in-out';
-
-        const cardWidth = carouselRef.current.children[0].offsetWidth;
-        const gapWidth = 20;
-        const totalCardWidth = cardWidth + gapWidth;
-        const movedCards = Math.round(diff / totalCardWidth);
-
-        setCurrentIndex(prevIndex => prevIndex + movedCards);
-
-        setTouchStartX(null);
-    };
-
     useEffect(() => {
         scrollToCard(currentIndex);
     }, [currentIndex]);
@@ -165,19 +129,18 @@ const Carousel = ({ header, animeList, animeListFailed, fetchFunction, animeIsLo
                             <>
                                 <div className="carousel-wrapper">
                                     {!isMobile && (
-                                        <button className={`carousel-control prev ${isAtStart ? 'hidden' : ''}`} onClick={handlePrev}><ChevronLeft size={48} /></button>
+                                        <button
+                                            className={`carousel-control prev ${isAtStart ? 'hidden' : ''}`}
+                                            onClick={handlePrev}
+                                        >
+                                            <ChevronLeft size={48} />
+                                        </button>
                                     )}
                                     <div className="carousel-container">
                                         <div className={`carousel-fade-left ${isAtStart ? 'at-start' : ''}`} />
                                         <div className={`carousel-fade-right`} />
 
-                                        <div
-                                            className="carousel"
-                                            ref={carouselRef}
-                                            onTouchStart={handleTouchStart}
-                                            onTouchMove={handleTouchMove}
-                                            onTouchEnd={handleTouchEnd}
-                                        >
+                                        <div className="carousel" ref={carouselRef}>
                                             {clonedList.map((anime, index) => (
                                                 <CarouselAnimeCard
                                                     key={index}
@@ -191,20 +154,33 @@ const Carousel = ({ header, animeList, animeListFailed, fetchFunction, animeIsLo
                                         </div>
                                     </div>
                                     {!isMobile && (
-                                        <button className={`carousel-control next`} onClick={handleNext}><ChevronRight size={48} /></button>
+                                        <button
+                                            className={`carousel-control next`}
+                                            onClick={handleNext}
+                                        >
+                                            <ChevronRight size={48} />
+                                        </button>
                                     )}
                                 </div>
                                 {isMobile && (
                                     <div className="carousel-controls-bottom">
-                                        <button className={`carousel-control prev ${isAtStart ? 'hidden' : ''}`} onClick={handlePrev}><ChevronLeft size={48} /></button>
-                                        <button className={`carousel-control next`} onClick={handleNext}><ChevronRight size={48} /></button>
+                                        <button
+                                            className={`carousel-control prev ${isAtStart ? 'hidden' : ''}`}
+                                            onClick={handlePrev}
+                                        >
+                                            <ChevronLeft size={48} />
+                                        </button>
+                                        <button
+                                            className={`carousel-control next`}
+                                            onClick={handleNext}
+                                        >
+                                            <ChevronRight size={48} />
+                                        </button>
                                     </div>
                                 )}
                             </>
                         ) : (
-                            <p>
-                                Loading...
-                            </p>
+                            <p>Loading...</p>
                         )}
 
                         <div className="carousel-dots">
@@ -217,7 +193,6 @@ const Carousel = ({ header, animeList, animeListFailed, fetchFunction, animeIsLo
                             ))}
                         </div>
                     </div>
-
                 </>
             )}
         </>

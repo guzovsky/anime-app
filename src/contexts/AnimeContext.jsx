@@ -40,6 +40,7 @@ export function AnimeProvider({ children }) {
     const [seeMorePageIsOpen, setSeeMorePageIsOpen] = useState(null)
     const [editingListId, setEditingListId] = useState(null)
     const [addAnimeToListsButtonDropDownIsOpen, setAddAnimeToListsButtonDropDownIsOpen] = useState({ id: null, type: null, listId: null });
+    const [isEditingAnimeInList, setIsEditingAnimeInList] = useState(null)
 
     const [animeList, setAnimeList] = useState([]);
     const [topAnime, setTopAnime] = useState([]);
@@ -561,6 +562,9 @@ export function AnimeProvider({ children }) {
 
         isAddedToAList,
         editListName,
+
+        isEditingAnimeInList,
+        setIsEditingAnimeInList,
 
         // Refs
         hasFetchedTopAnime,

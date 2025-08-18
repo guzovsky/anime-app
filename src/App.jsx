@@ -6,6 +6,7 @@ import FavoritesPage from "./pages/Favorites";
 import AnimeInformation from "./pages/AnimeInformation";
 import SeeMorePage from "./pages/SeeMorePage/SeeMorePage";
 import CustomListsPage from "./pages/CustomListsPage/CustomListsPage.jsx";
+import FullScreenList from "./pages/CustomListsPage/FullScreenList.jsx";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/anime/:id" element={<AnimeInformation />} />
         <Route path="/category/:categoryType" element={<SeeMorePage />} />
         <Route path="/custom-lists" element={<CustomListsPage />} />
+        <Route path="/custom-lists/:listName" element={<FullScreenList />} />
       </Routes>
     </>
   );
