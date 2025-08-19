@@ -102,7 +102,8 @@ function CustomListsPageLists() {
     }, [isEditingAnimeInList, setIsEditingAnimeInList]);
 
     const sensors = useSensors(
-        useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+        useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+        useSensor(TouchSensor, { activationConstraint: { delay: 100, tolerance: 5 } })
     );
 
     const handleDragStart = (listId, event) => {
