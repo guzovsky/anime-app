@@ -30,16 +30,22 @@ function AnimeCardForCustomListsPage({ anime, isFavorite, onFavoriteToggle, show
                 </button>
             )}
 
-            <Link
-                to={`/anime/${anime.mal_id}`}
-                className="custom-list-anime-container-anime-image"
-                onClick={() => {
-                    setAnimeCardIsOpen(anime.mal_id)
-                    setIsEditingAnimeInList(null)
-                }}
-            >
-                <img src={anime.images.jpg.large_image_url} alt={anime.title} />
-            </Link>
+            {isEditingAnimeInList === listId ? (
+                <div className="custom-list-anime-container-anime-image disabled">
+                    <img src={anime.images.jpg.large_image_url} alt={anime.title} />
+                </div>
+            ) : (
+                <Link
+                    to={`/anime/${anime.mal_id}`}
+                    className="custom-list-anime-container-anime-image"
+                    onClick={() => {
+                        setAnimeCardIsOpen(anime.mal_id);
+                        setIsEditingAnimeInList(null);
+                    }}
+                >
+                    <img src={anime.images.jpg.large_image_url} alt={anime.title} />
+                </Link>
+            )}
 
             <div className="custom-list-anime-container-anime-details">
                 <h2 className="custom-list-anime-container-anime-title">{anime.title}</h2>
