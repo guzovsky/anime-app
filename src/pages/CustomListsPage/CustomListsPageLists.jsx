@@ -215,7 +215,7 @@ function CustomListsPageLists() {
                             >
                                 <div
                                     ref={(el) => (listRefs.current[list.id] = el)}
-                                    className="custom-list-anime-container"
+                                    className={`custom-list-anime-container ${isEditingAnimeInList === list.id ? "being-edited" : ""}`}
                                 >
                                     {list.anime.length > 0 ? (
                                         list.anime.map((anime) => (

@@ -333,7 +333,7 @@
     transform-origin: center bottom;
 }
 
-
-.custom-list-anime-container {
-    touch-action: pan-y;
+.custom-list-anime-container.being-edited {
+    overflow-x: auto;
+    touch-action: pan-y; /* allows vertical scroll while letting long-press drag work */
 }
