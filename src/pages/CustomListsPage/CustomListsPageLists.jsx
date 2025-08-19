@@ -13,6 +13,7 @@ import {
     useSensor,
     useSensors,
     DragOverlay,
+    TouchSensor,
 } from "@dnd-kit/core";
 
 import {
