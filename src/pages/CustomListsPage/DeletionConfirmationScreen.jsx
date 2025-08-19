@@ -7,7 +7,7 @@ function DeletionConfirmationScreen({ deletionConfirmationScreenIsOpen, setDelet
         deletionConfirmationScreenIsOpen && (
             <div className="deletion-confirmation-overlay" onClick={() => { setDeletionConfirmationScreenIsOpen(false) }}>
                 <div className="deletion-confirmation-container">
-                    <h1>Are you sure you want to delete your <span>{list.name}</span> Anime list?</h1>
+                    <h1>Are you sure you want to delete your <br /><span>{list.name}</span><br /> Anime list?</h1>
                     <div className="deletion-confirmation-buttons">
                         <div>
                             <button onClick={() => { deleteCustomList(list.id) }}>YES</button>

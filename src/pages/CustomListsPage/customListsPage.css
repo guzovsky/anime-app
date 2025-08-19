@@ -3,13 +3,21 @@
     padding: 1rem;
 }
 
+.container.custom-lists-page h1 {
+    margin: 1rem 0 0.5rem 0; 
+}
+
+.custom-lists-page-instructions {
+    margin-bottom: -1rem;
+    text-align: center;
+}
+
 .custom-list-container {
     max-width: 60rem;
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 4rem;
-    
 }
 
 .input-custom-list-container {
@@ -19,6 +27,7 @@
     padding: 0 1rem;
     background-color: #14151b;
     box-shadow: 0 4px 12px #00000080;
+    align-items: center;
 }
 
 .input-custom-list-container input {
@@ -30,6 +39,12 @@
 
 .input-custom-list-container button {
     color: white;
+}
+
+.input-custom-list-plus-icon, .input-custom-list-search-icon {
+    min-width: 25px;
+    display: flex;
+    justify-content: center;
 }
 
 .custom-list {
@@ -335,5 +350,5 @@
 
 .custom-list-anime-container.being-edited {
     overflow-x: auto;
-    touch-action: pan-y; /* allows vertical scroll while letting long-press drag work */
+    touch-action: pan-y;
 }

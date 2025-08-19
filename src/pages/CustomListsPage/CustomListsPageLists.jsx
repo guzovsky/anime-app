@@ -54,7 +54,6 @@ function SortableAnimeCard({ anime, listId, isEditingAnimeInList, activeId, ...p
 
 function CustomListsPageLists() {
     const {
-        customLists,
         editingListId,
         setEditingListId,
         deleteCustomList,
@@ -64,6 +63,7 @@ function CustomListsPageLists() {
         isEditingAnimeInList,
         setIsEditingAnimeInList,
         setCustomLists,
+        filteredLists,
     } = useContext(AnimeContext);
 
     const [listIdToDelete, setListIdToDelete] = useState(null);
@@ -109,7 +109,7 @@ function CustomListsPageLists() {
 
     const handleDragStart = (listId, event) => {
         const { active } = event;
-        const draggedAnime = customLists
+        const draggedAnime = filteredLists
             .flatMap((l) => l.anime.map((a) => ({ ...a, listId: l.id })))
             .find((a) => a.mal_id === active.id);
 
@@ -141,7 +141,7 @@ function CustomListsPageLists() {
 
     return (
         <div className="custom-list-container">
-            {customLists.map((list) => (
+            {filteredLists.map((list) => (
                 <React.Fragment key={list.id}>
                     <DeletionConfirmationScreen
                         list={list}
@@ -173,9 +173,14 @@ function CustomListsPageLists() {
                                         <button onClick={() => { setEditingListId(list.id); setEditListIdInputValue(list.name); }}>
                                             <Pencil />
                                         </button>
-                                        <Link to={`/custom-lists/${list.name}`}>
-                                            <Expand />
-                                        </Link>
+
+                                        {list.anime.length > 0 && (
+                                            <Link to={`/custom-lists/${list.name}`}>
+                                                <Expand />
+                                            </Link>
+                                        )}
+
+
                                         <button onClick={() => setListIdToDelete(list.id)}>
                                             <Trash />
                                         </button>
@@ -198,7 +203,10 @@ function CustomListsPageLists() {
                                         )
                                     }
                                 >
-                                    <SquarePen />
+                                    {list.anime.length > 0 && (
+                                        <SquarePen />
+                                    )}
+                                    
                                 </button>
                             </div>
                         </div>

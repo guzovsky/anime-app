@@ -93,6 +93,7 @@
     overflow: hidden;
     box-shadow: 0 4px 12px #00000080;
     transition: transform 0.2s ease;
+    position: relative;
 }
 
 .sidebar-anime-card:hover {
@@ -127,6 +128,10 @@
 .sidebar-anime-title {
     font-size: 0.9rem;
     font-weight: bold;
+}
+
+.sidebar-anime-btn-container {
+    display: flex;
 }
 
 .sidebar-add-btn {
@@ -183,4 +188,8 @@
   opacity: 0;
   transform: translateY(-10px);
   transition: all 0.3s ease;
+}
+
+.sidebar-anime-card .add-anime-to-lists-dropdown {
+    height: 100%;
 }

@@ -48,6 +48,7 @@ export function AnimeProvider({ children }) {
     const [mostPopularAnime, setMostPopularAnime] = useState([])
     const [animeGenres, setAnimeGenres] = useState([]);
     const [customLists, setCustomLists] = useState(JSON.parse(localStorage.getItem('customLists')) || [])
+    const [filteredLists, setFilteredLists] = useState([]);
 
     const [hasSearched, setHasSearched] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -59,6 +60,7 @@ export function AnimeProvider({ children }) {
     const [genresFailed, setGenresFailed] = useState(false)
     const [genresLoading, setGenresLoading] = useState(false)
     const [topAnimeIsLoading, setTopAnimeIsLoading] = useState(false)
+    const [searchForAListInputIsFocused, setSearchForAListInputIsFocused] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -150,6 +152,20 @@ export function AnimeProvider({ children }) {
         setCustomLists(prev => [...prev, newList]);
     };
 
+    const handleSearchList = (query) => {
+        const trimmedQuery = query.trim().toLowerCase();
+        if (!trimmedQuery) {
+            setFilteredLists(customLists);
+            return;
+        }
+
+        const filtered = customLists.filter(list =>
+            list.name.toLowerCase().includes(trimmedQuery)
+        );
+
+        setFilteredLists(filtered);
+    }
+
 
 
     const editListName = (newName, id) => {
@@ -180,6 +196,7 @@ export function AnimeProvider({ children }) {
 
     useEffect(() => {
         localStorage.setItem('customLists', JSON.stringify(customLists));
+        setFilteredLists(customLists);
     }, [customLists]);
 
 
@@ -542,6 +559,15 @@ export function AnimeProvider({ children }) {
         editingListId,
         setEditingListId,
 
+        isEditingAnimeInList,
+        setIsEditingAnimeInList,
+
+        filteredLists,
+        setFilteredLists,
+
+        searchForAListInputIsFocused,
+        setSearchForAListInputIsFocused,
+
         // Functions
         removeDuplicates,
         removeBuggedAnime,
@@ -563,8 +589,7 @@ export function AnimeProvider({ children }) {
         isAddedToAList,
         editListName,
 
-        isEditingAnimeInList,
-        setIsEditingAnimeInList,
+        handleSearchList,
 
         // Refs
         hasFetchedTopAnime,
