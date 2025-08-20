@@ -121,7 +121,7 @@ function AddAnimeToListsButtonDropDown({ anime, listId }) {
                                         setCustomLists(prevLists =>
                                             prevLists.map((l, i) =>
                                                 i === index
-                                                    ? { ...l, anime: [...l.anime, anime] }
+                                                    ? { ...l, anime: [...l.anime, { ...anime, addedAt: new Date().toISOString() }] }
                                                     : l
                                             )
                                         );

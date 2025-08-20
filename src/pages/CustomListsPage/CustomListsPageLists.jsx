@@ -5,6 +5,14 @@ import AnimeCardForCustomListsPage from './AnimeCardForCustomListsPage';
 import DeletionConfirmationScreen from "./DeletionConfirmationScreen"
 import React from 'react';
 import { Link } from "react-router-dom";
+import CustomListSortDropdown from "./CustomListSortDropdown"
+
+
+
+
+
+
+
 
 import {
     DndContext,
@@ -52,6 +60,27 @@ function SortableAnimeCard({ anime, listId, isEditingAnimeInList, activeId, ...p
     );
 }
 
+
+
+
+
+
+
+
+function handleSortChange(selectedOption, list) {
+    if (selectedOption.sortBy.value === "alphabetical") {
+        return [...list.anime].sort((a, b) =>
+            selectedOption.order === "asc"
+                ? a.title.localeCompare(b.title)
+                : b.title.localeCompare(a.title)
+        );
+    }
+
+    return list.anime;
+}
+
+
+
 function CustomListsPageLists() {
     const {
         editingListId,
@@ -72,6 +101,12 @@ function CustomListsPageLists() {
     const [activeAnime, setActiveAnime] = useState(null);
     const [activeListId, setActiveListId] = useState(null);
 
+
+
+
+
+
+
     const handleChange = (e) => {
         setEditListIdInputValue(e.target.value);
     };
@@ -81,6 +116,11 @@ function CustomListsPageLists() {
         setEditListIdInputValue("");
         setEditingListId(null);
     };
+
+
+
+
+
 
     const listRefs = useRef({});
 
@@ -101,6 +141,14 @@ function CustomListsPageLists() {
         document.addEventListener("mousedown", handleClick);
         return () => document.removeEventListener("mousedown", handleClick);
     }, [isEditingAnimeInList, setIsEditingAnimeInList]);
+
+
+
+
+
+
+
+
 
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -139,6 +187,15 @@ function CustomListsPageLists() {
         }
     };
 
+
+
+
+
+
+
+
+
+
     return (
         <div className="custom-list-container">
             {filteredLists.map((list) => (
@@ -169,6 +226,9 @@ function CustomListsPageLists() {
                             ) : (
                                 <>
                                     <h2>{list.name}</h2>
+
+
+
                                     <div>
                                         <button onClick={() => { setEditingListId(list.id); setEditListIdInputValue(list.name); }}>
                                             <Pencil />
@@ -206,7 +266,7 @@ function CustomListsPageLists() {
                                     {list.anime.length > 0 && (
                                         <SquarePen />
                                     )}
-                                    
+
                                 </button>
                             </div>
                         </div>
@@ -221,6 +281,11 @@ function CustomListsPageLists() {
                                 items={list.anime.map(a => a.mal_id)}
                                 strategy={horizontalListSortingStrategy}
                             >
+                                <div className="custom-list-sort-dropdown-container">
+                                    {list.anime.length > 0 && (
+                                        <CustomListSortDropdown list={list} setCustomLists={setCustomLists} />
+                                    )}
+                                </div>
                                 <div
                                     ref={(el) => (listRefs.current[list.id] = el)}
                                     className={`custom-list-anime-container ${isEditingAnimeInList === list.id ? "being-edited" : ""}`}

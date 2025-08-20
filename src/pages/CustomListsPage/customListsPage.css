@@ -352,3 +352,104 @@
     overflow-x: auto;
     touch-action: pan-y;
 }
+
+
+
+
+
+
+
+
+
+.custom-list-sort-dropdown-container {
+    width: 100%;
+    max-width: 60rem;
+}
+
+.custom-list-sort-dropdown-filters-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+    padding: 1rem;
+    color: #eee;
+}
+
+.custom-list-sort-dropdown-select-elements-container {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.custom-list-sort-dropdown-select-wrapper {
+    flex: 1;
+}
+
+.custom-list-sort-dropdown-select-wrapper::after {
+    content: '▾';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ccc;
+    pointer-events: none;
+    transition: transform 0.3s ease;
+    font-size: 1rem;
+}
+
+.custom-list-sort-dropdown-select-wrapper:focus-within::after {
+    transform: translateY(-50%) rotate(180deg);
+    color: #fff;
+}
+
+.custom-list-sort-dropdown-sort-dropdown {
+    position: relative;
+}
+
+.custom-list-sort-dropdown-sort-dropdown-toggle {
+    width: 100%;
+    background-color: #1a1d2c;
+    color: #eee;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s ease;
+}
+
+.custom-list-sort-dropdown-sort-dropdown-toggle:hover {
+    background-color: #212538;
+}
+
+.custom-list-sort-dropdown-sort-options-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #1a1d2c;
+    border-radius: 8px;
+    margin-top: 4px;
+    z-index: 999;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    max-height: 265px;
+    overflow-y: auto;
+}
+
+.custom-list-sort-dropdown-sort-option {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    background: none;
+    border: none;
+    color: #eee;
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+.custom-list-sort-dropdown-sort-option:hover,
+.custom-list-sort-dropdown-sort-option.active {
+    background-color: #2b2f44;
+}

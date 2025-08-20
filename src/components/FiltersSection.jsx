@@ -41,17 +41,7 @@ function FiltersSection({ onSearch }) {
         setFilters((prev) => ({ ...prev, [name]: value }));
     };
 
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setSortDropdownOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
+    
 
     return (
         <div className="filters-container">
