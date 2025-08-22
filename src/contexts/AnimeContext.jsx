@@ -49,6 +49,7 @@ export function AnimeProvider({ children }) {
     const [animeGenres, setAnimeGenres] = useState([]);
     const [customLists, setCustomLists] = useState(JSON.parse(localStorage.getItem('customLists')) || [])
     const [filteredLists, setFilteredLists] = useState([]);
+    const [rawAnimeList, setRawAnimeList] = useState([]);
 
     const [hasSearched, setHasSearched] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -61,15 +62,15 @@ export function AnimeProvider({ children }) {
     const [genresLoading, setGenresLoading] = useState(false)
     const [topAnimeIsLoading, setTopAnimeIsLoading] = useState(false)
     const [searchForAListInputIsFocused, setSearchForAListInputIsFocused] = useState(false);
+    const [filterHentai, setFilterHentai] = useState(true)
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [sideBarAnimepage, setSideBarAnimepage] = useState(1);
+    const [sideBarAnimePageCache, setSideBarAnimePageCache] = useState(1);
 
     const [searchCache, setSearchCache] = useState({});
     const [sidebarAnimeCache, setSidebarAnimeCache] = useState({});
-
-    const [sideBarAnimepage, setSideBarAnimepage] = useState(1);
-    const [sideBarAnimePageCache, setSideBarAnimePageCache] = useState(1);
 
     const [genreForSeeMorePage, setGenreForSeeMorePage] = useState("");
     const [customListInputValue, setCustomListInputValue] = useState("");
@@ -209,7 +210,7 @@ export function AnimeProvider({ children }) {
         const cacheKey = `${query}-${status}-${type}-${genre}-${sort}-${filters.order}-${page}`;
 
         if (searchCache[cacheKey]) {
-            setAnimeList(searchCache[cacheKey].anime);
+            setRawAnimeList(searchCache[cacheKey].anime);
             setCurrentPage(searchCache[cacheKey].currentPage);
             setTotalPages(searchCache[cacheKey].totalPages);
             setHasSearched(true);
@@ -239,7 +240,8 @@ export function AnimeProvider({ children }) {
                 fetchedAnime = sortAlphabetically(fetchedAnime, filters.order);
             }
 
-            setAnimeList(fetchedAnime);
+            setRawAnimeList(fetchedAnime);
+
             setCurrentPage(response.data.pagination.current_page);
             setTotalPages(response.data.pagination.last_visible_page);
 
@@ -257,6 +259,20 @@ export function AnimeProvider({ children }) {
             setIsLoading(false);
         }
     };
+
+
+
+    useEffect(() => {
+        let finalList = rawAnimeList;
+
+        if (filterHentai) {
+            finalList = finalList.filter(
+                a => !a.genres?.some(genre => genre.name === "Hentai")
+            );
+        }
+
+        setAnimeList(finalList);
+    }, [rawAnimeList, filterHentai, filters.sort, filters.order]);
 
 
 
@@ -567,6 +583,9 @@ export function AnimeProvider({ children }) {
 
         searchForAListInputIsFocused,
         setSearchForAListInputIsFocused,
+
+        filterHentai,
+        setFilterHentai,
 
         // Functions
         removeDuplicates,

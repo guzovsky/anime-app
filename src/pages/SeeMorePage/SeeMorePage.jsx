@@ -5,10 +5,13 @@ import AnimeCard from "../../components/AnimeCard";
 import FiltersForSeeMorePage from "./FiltersForSeeMorePage";
 import "../../styles/seeMorePage.css"
 import Pagination from "../../components/Pagination";
+import HentaiFilter from "../../components/HentaiFilter/HentaiFilter";
 
 const SeeMorePage = () => {
     const { categoryType } = useParams()
     const [isResettingFilters, setIsResettingFilters] = useState(false);
+    const [filterHentai, setFilterHentai] = useState(true)
+    const [rawAnimeList, setRawAnimeList] = useState([]);
 
     const {
         isFavorite,
@@ -84,6 +87,7 @@ const SeeMorePage = () => {
 
         <div className="see-more-page">
             <h1>{title}</h1>
+            <HentaiFilter filterHentai={filterHentai} setFilterHentai={setFilterHentai} />
 
             {!isResettingFilters && (
                 <FiltersForSeeMorePage
@@ -113,6 +117,10 @@ const SeeMorePage = () => {
             )}
 
             <Pagination
+                filterHentai={filterHentai}
+                setFilterHentai={setFilterHentai}
+                setRawAnimeList={setRawAnimeList}
+                rawAnimeList={rawAnimeList}
                 animeList={animeList}
                 genre={genreForSeeMorePage}
                 status={status}

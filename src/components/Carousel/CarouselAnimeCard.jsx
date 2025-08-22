@@ -15,6 +15,8 @@ function CarouselAnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton 
 
     const isSaved = isAddedToAList(anime)
 
+    const status = anime.status
+
     return (
         <div className="carousel-anime-card">
             <Link
@@ -23,7 +25,7 @@ function CarouselAnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton 
                 onClick={() => setAnimeCardIsOpen(id)}
             >
                 <img src={anime.images.jpg.large_image_url} alt={anime.title} />
-                <div className="carousel-status-badge">{anime.status}</div>
+                <div className={`carousel-status-badge ${status === "Not yet aired" ? "red" : status === "Finished Airing" ? "gray" : ""}`}>{anime.status}</div>
             </Link>
 
             <div className="carousel-anime-details">

@@ -1,0 +1,37 @@
+.hentai-filter-container {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem;
+}
+
+.hentai-filter-btn {
+    width: 50px;
+    height: 24px;
+    box-shadow: 0 3px 8px #00000080;
+    background-color: #1e1f2c;
+    border-radius: 12px;
+    position: relative;
+    padding: 0;
+    transition: background-color 0.3s;
+}
+
+.hentai-filter-btn.on {
+    background-color: #2e86de;
+}
+
+.hentai-filter-toggle-circle {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s;
+}
+
+.hentai-filter-btn.on .hentai-filter-toggle-circle {
+    transform: translateX(26px);
+}

@@ -7,6 +7,7 @@ import Results from "../components/Results";
 import '../styles/general.css';
 import SearchedResultPagination from "../components/SearchedResultPagination";
 import Carousel from "../components/Carousel/Carousel";
+import HentaiFilter from "../components/HentaiFilter/HentaiFilter";
 
 
 function HomePage() {
@@ -14,6 +15,7 @@ function HomePage() {
         isLoading,
         handleSearch,
         animeList,
+        setAnimeList,
         filters,
         setFilters,
         hasSearched,
@@ -28,6 +30,7 @@ function HomePage() {
         sideBarAnimeIsLoading,
         sidebarDataFailed,
         fetchSidebarAnime,
+        filterHentai, setFilterHentai,
     } = useContext(AnimeContext)
 
     return (
@@ -37,6 +40,8 @@ function HomePage() {
 
             <ResultsHeader animeList={animeList} />
             <FiltersSection onSearch={() => handleSearch(filters)} />
+
+            <HentaiFilter filterHentai={filterHentai} setFilterHentai={setFilterHentai} />
 
             {!hasSearched && (
                 <div className="carousels-container">

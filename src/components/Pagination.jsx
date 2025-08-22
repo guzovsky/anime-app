@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import AnimeContext from "../contexts/AnimeContext";
 import axios from "axios";
 
-function Pagination({ status, orderBy, sort, setAnimeList, genre, page, setPage, animeList, isResettingFilters }) {
+function Pagination({ status, orderBy, sort, setAnimeList, genre, page, setPage, animeList, isResettingFilters, rawAnimeList, setRawAnimeList, filterHentai, setFilterHentai }) {
 
     const {
         setIsLoading,
@@ -26,7 +26,7 @@ function Pagination({ status, orderBy, sort, setAnimeList, genre, page, setPage,
         const cacheKey = `${status}-${genre}-${orderBy}-${sort}-${page}`;
 
         if (sidebarAnimeCache[cacheKey]) {
-            setAnimeList(sidebarAnimeCache[cacheKey].anime);
+            setRawAnimeList(sidebarAnimeCache[cacheKey].anime);
             setPage(sidebarAnimeCache[cacheKey].currentPage);
             setTotalPages(sidebarAnimeCache[cacheKey].totalPages);
             return;
@@ -48,7 +48,7 @@ function Pagination({ status, orderBy, sort, setAnimeList, genre, page, setPage,
             const response = await axios.get(`https://api.jikan.moe/v4/anime?${params.toString()}`);
             let newAnimeList = removeDuplicates(removeBuggedAnime(response.data.data) || []);
 
-            setAnimeList(newAnimeList);
+            setRawAnimeList(newAnimeList);
             setTotalPages(response.data.pagination.last_visible_page);
 
             setSidebarAnimeCache(prev => ({
@@ -66,6 +66,20 @@ function Pagination({ status, orderBy, sort, setAnimeList, genre, page, setPage,
             setIsLoading(false);
         }
     };
+
+
+
+    useEffect(() => {
+        let finalList = rawAnimeList;
+
+        if (filterHentai) {
+            finalList = finalList.filter(
+                a => !a.genres?.some(genre => genre.name === "Hentai")
+            );
+        }
+
+        setAnimeList(finalList);
+    }, [rawAnimeList, filterHentai]);
 
 
 

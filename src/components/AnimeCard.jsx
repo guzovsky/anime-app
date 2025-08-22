@@ -9,11 +9,13 @@ function AnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true }
 
     const isSaved = isAddedToAList(anime)
 
+    const status = anime.status
+
     return (
         <div className="anime-card">
             <Link to={`/anime/${anime.mal_id}`} className="anime-image" onClick={() => setAnimeCardIsOpen(anime.mal_id)}>
                 <img src={anime.images.jpg.large_image_url} alt={anime.title} />
-                <div className="status-badge">{anime.status}</div>
+                <div className={`status-badge ${status === "Not yet aired" ? "red" : status === "Finished Airing" ? "gray" : ""}`}>{status}</div>
                 <div className="info-line mobile-info-line">
                     <p>{anime.season ? anime.season.charAt(0).toUpperCase() + anime.season.slice(1) : 'Unknown'} {anime.year || ''}</p>
                     <p>{anime.episodes || 'Unknown'} episodes</p>

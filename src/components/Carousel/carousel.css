@@ -162,6 +162,14 @@
     font-weight: bold;
 }
 
+.carousel-status-badge.red {
+    background-color: rgb(201, 67, 67);
+}
+
+.carousel-status-badge.gray {
+    background-color: #14151b;
+}
+
 .carousel-anime-details {
     display: flex;
     flex-direction: column;

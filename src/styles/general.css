@@ -96,6 +96,14 @@ h1 {
     font-weight: bold;
 }
 
+.status-badge.red {
+    background-color: rgb(201, 67, 67);
+}
+
+.status-badge.gray {
+    background-color: #14151b;
+}
+
 .anime-details {
     display: flex;
     flex-direction: column;
@@ -270,6 +278,10 @@ h1 {
         position: absolute;
         top: -4rem;
         left: 0;
+    }
+
+    .status-badge.gray {
+        background-color: #242424;
     }
 
     .favorite-btn {
