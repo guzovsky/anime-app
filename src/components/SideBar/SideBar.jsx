@@ -3,6 +3,7 @@ import AnimeContext from "../../contexts/AnimeContext";
 import "./sideBar.css";
 import SideBarCategories from "./SideBarCategories";
 import { CSSTransition } from "react-transition-group";
+import LoginOrRegisterBtn from "./LoginOrRegisterBtn";
 
 function SideBar() {
     const nodeRef = useRef(null);
@@ -15,7 +16,7 @@ function SideBar() {
         topAnime,
         sideBarAnimeIsLoading,
     } = useContext(AnimeContext);
-    
+
     return (
         <CSSTransition
             in={isSidebarOpen}
@@ -30,6 +31,7 @@ function SideBar() {
                     onClick={(e) => e.stopPropagation()}
                     ref={nodeRef}
                 >
+
                     <div className="sidebar-close-btn-and-header-container">
                         <h2>Explore Some Recommended Categories</h2>
                         <button className="sidebar-close-btn" onClick={() => setIsSidebarOpen(false)}>✕</button>
@@ -56,6 +58,10 @@ function SideBar() {
                     ) : (
                         <p>Loading...</p>
                     )}
+
+
+                    <LoginOrRegisterBtn />
+
 
                 </div>
             </div>

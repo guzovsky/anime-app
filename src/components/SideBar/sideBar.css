@@ -5,7 +5,7 @@
     height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999999;
+    z-index: 9999;
 }
 
 .sidebar-container {
@@ -19,6 +19,7 @@
     width: 300px;
     background-color: #000000;
     padding: 1rem;
+    padding-bottom: 5rem;
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     overflow-x: hidden;
@@ -98,3 +99,46 @@
     transition: opacity 200ms ease, transform 200ms ease;
 }
 
+
+
+
+.login-or-register-btn-container {
+    position: fixed;
+    z-index: 99999;
+    bottom: 0;
+    background-color: #000000;
+    width: 280px;
+    display: flex;
+    padding: 1.5rem 1rem;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.login-or-register-btn-container button {
+    color: white;
+}
+
+
+.login-or-register-btn-icon {
+    position: relative;
+    min-width: 30px;
+}
+
+.login-or-register-btn-icon::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -1rem;
+    width: 2px;
+    height: 100%;
+    background-color: #4d4d4d;
+}
+
+.login-or-register-btn-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 1rem;
+}

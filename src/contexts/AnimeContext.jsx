@@ -41,13 +41,14 @@ export function AnimeProvider({ children }) {
     const [editingListId, setEditingListId] = useState(null)
     const [addAnimeToListsButtonDropDownIsOpen, setAddAnimeToListsButtonDropDownIsOpen] = useState({ id: null, type: null, listId: null });
     const [isEditingAnimeInList, setIsEditingAnimeInList] = useState(null)
+    const [user, setUser] = useState(null);
 
     const [animeList, setAnimeList] = useState([]);
     const [topAnime, setTopAnime] = useState([]);
     const [topUpcomingAnime, setTopUpcomingAnime] = useState([])
     const [mostPopularAnime, setMostPopularAnime] = useState([])
     const [animeGenres, setAnimeGenres] = useState([]);
-    const [customLists, setCustomLists] = useState(JSON.parse(localStorage.getItem('customLists')) || [])
+    const [customLists, setCustomLists] = useState([])
     const [filteredLists, setFilteredLists] = useState([]);
     const [rawAnimeList, setRawAnimeList] = useState([]);
 
@@ -62,6 +63,8 @@ export function AnimeProvider({ children }) {
     const [genresLoading, setGenresLoading] = useState(false)
     const [topAnimeIsLoading, setTopAnimeIsLoading] = useState(false)
     const [searchForAListInputIsFocused, setSearchForAListInputIsFocused] = useState(false);
+    const [loginRegisterModalIsActive, setLoginRegisterModalIsActive] = useState(false);
+    const [loginOrRegister, setLoginOrRegister] = useState("login");
     const [filterHentai, setFilterHentai] = useState(true)
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -75,6 +78,7 @@ export function AnimeProvider({ children }) {
     const [genreForSeeMorePage, setGenreForSeeMorePage] = useState("");
     const [customListInputValue, setCustomListInputValue] = useState("");
 
+    const API_URL = import.meta.env.VITE_API_URL;
 
     const [filters, setFilters] = useState({
         query: "",
@@ -85,20 +89,80 @@ export function AnimeProvider({ children }) {
         order: "desc",
     });
 
-    const [favorites, setFavorites] = useState(
-        JSON.parse(localStorage.getItem('favorites')) || []
-    );
+    const [favorites, setFavorites] = useState([]);
 
     const isFavorite = (anime) => favorites.some((fav) => fav.mal_id === anime.mal_id);
 
-    const handleAddToFavorites = (anime) => {
-        const updated = isFavorite(anime)
-            ? favorites.filter((fav) => fav.mal_id !== anime.mal_id)
-            : [...favorites, anime];
-        setFavorites(updated);
-        localStorage.setItem('favorites', JSON.stringify(updated));
+    const handleAddToFavorites = async (anime) => {
+        if (!user) return;
+
+        try {
+            const res = await axios.put(`${API_URL}/users/favorites`, { anime }, {
+                headers: { Authorization: `Bearer ${user.token}` }
+            });
+            setFavorites(res.data.favorites);
+        } catch (err) {
+            console.error("Failed to update favorites", err);
+        }
     };
 
+    useEffect(() => {
+        if (!user) return;
+
+        const fetchFavorites = async () => {
+            try {
+                const res = await axios.get(`${API_URL}/users/favorites`, {
+                    headers: { Authorization: `Bearer ${user.token}` }
+                });
+                setFavorites(res.data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchFavorites();
+    }, [user]);
+
+
+
+
+
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        axios.get(`${API_URL}/me`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(res => setUser({ ...res.data, token }))
+            .catch(() => {
+                localStorage.removeItem("token");
+                setUser(null);
+            });
+    }, []);
+
+    const registerUser = async (name, email, password) => {
+        try {
+            const res = await axios.post(`${API_URL}/users`, { name, email, password });
+            return res.data;
+        } catch (err) {
+            throw err;
+        }
+    };
+
+    const loginUser = async (name, password) => {
+        try {
+            const res = await axios.post(`${API_URL}/users/login`, { name, password });
+            const token = res.data.token;
+            localStorage.setItem("token", token);
+            setUser({ ...res.data, token });
+            setLoginRegisterModalIsActive(false)
+        } catch (err) {
+            setUser(null);
+            throw err;
+        }
+    };
 
 
 
@@ -196,9 +260,42 @@ export function AnimeProvider({ children }) {
 
 
     useEffect(() => {
-        localStorage.setItem('customLists', JSON.stringify(customLists));
         setFilteredLists(customLists);
     }, [customLists]);
+
+    useEffect(() => {
+        if (!user) return;
+
+        const saveCustomLists = async () => {
+            try {
+                await axios.put(`${API_URL}/users/custom-lists`, { customLists }, {
+                    headers: { Authorization: `Bearer ${user.token}` }
+                });
+            } catch (err) {
+                console.error("Failed to save custom lists", err);
+            }
+        };
+
+        saveCustomLists();
+    }, [customLists]);
+
+
+    useEffect(() => {
+        if (!user) return;
+
+        const fetchCustomLists = async () => {
+            try {
+                const res = await axios.get(`${API_URL}/users/custom-lists`, {
+                    headers: { Authorization: `Bearer ${user.token}` }
+                });
+                setCustomLists(res.data);
+            } catch (err) {
+                console.error("Failed to fetch custom lists", err);
+            }
+        };
+
+        fetchCustomLists();
+    }, [user]);
 
 
 
@@ -587,6 +684,15 @@ export function AnimeProvider({ children }) {
         filterHentai,
         setFilterHentai,
 
+        loginRegisterModalIsActive,
+        setLoginRegisterModalIsActive,
+
+        loginOrRegister,
+        setLoginOrRegister,
+
+        user,
+        setUser,
+
         // Functions
         removeDuplicates,
         removeBuggedAnime,
@@ -609,6 +715,9 @@ export function AnimeProvider({ children }) {
         editListName,
 
         handleSearchList,
+
+        loginUser,
+        registerUser,
 
         // Refs
         hasFetchedTopAnime,

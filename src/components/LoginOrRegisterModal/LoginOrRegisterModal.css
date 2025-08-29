@@ -1,0 +1,53 @@
+.login-register-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 99999999;
+    display: flex;
+    justify-content: center;
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.login-register-modal-container button {
+    color: white;
+}
+
+.login-register-modal-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 25rem;
+    width: 100%;
+    gap: 1rem;
+}
+
+.login-register-modal-container form button {
+    margin-top: 1rem;
+}
+
+.login-register-modal-container button {
+    color: white;
+    background-color: #161616;
+    padding: 0.5rem 0.7rem;
+    max-width: 10rem;
+    border-radius: 10px;
+    transition: background-color 0.4s ease;
+    margin: 0 auto;
+}
+
+.login-register-modal-container button:hover {
+    background-color: #272727;
+}
+
+.login-register-modal-container p button {
+    all: unset;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.login-register-modal-container p button:hover {
+    background-color: transparent;
+}

@@ -7,11 +7,13 @@ import AnimeInformation from "./pages/AnimeInformation";
 import SeeMorePage from "./pages/SeeMorePage/SeeMorePage";
 import CustomListsPage from "./pages/CustomListsPage/CustomListsPage.jsx";
 import FullScreenList from "./pages/CustomListsPage/FullScreenList.jsx";
+import LoginOrRegisterModal from "./components/LoginOrRegisterModal/LoginOrRegisterModal.jsx";
 
 function App() {
 
   return (
     <>
+      <LoginOrRegisterModal />
       <SideBar />
       <NavBar />
       <Routes>
