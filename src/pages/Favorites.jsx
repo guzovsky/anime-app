@@ -58,7 +58,6 @@ function FavoritesPage() {
                       anime={anime}
                       isFavorite={isFavorite}
                       onFavoriteToggle={handleAddToFavorites}
-                      showAddButton={true}
                     />
                   ))}
                 </div>
@@ -77,7 +76,6 @@ function FavoritesPage() {
                       anime={anime}
                       isFavorite={isFavorite}
                       onFavoriteToggle={handleAddToFavorites}
-                      showAddButton={false}
                     />
                   ))}
                 </div>

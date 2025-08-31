@@ -14,26 +14,44 @@ function LoginOrRegisterModal() {
         loginUser,
     } = useContext(AnimeContext);
 
-    const onClose = () => setLoginRegisterModalIsActive(false);
+    const onClose = () => {
+        setLoginRegisterModalIsActive(false);
+        setName("");
+        setEmail("");
+        setPassword("");
+        setError("");
+        setSuccessMessage("");
+    }
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
+    const [loading, setLoading] = useState(false);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (loading) return;
+        setLoading(true);
         setError("");
         setSuccessMessage("");
         try {
             if (loginOrRegister === "login") {
                 await loginUser(name, password);
+                setName("");
+                setPassword("");
             } else {
-                await registerUser(name, email, password);
+                await registerUser(name.trim(), email.trim(), password);
                 setSuccessMessage("Registration successful! Please check your email to verify your account.");
+                setName("");
+                setEmail("");
+                setPassword("");
             }
         } catch (err) {
             setError(err.response?.data?.error || err.message || "Something went wrong");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -79,7 +97,11 @@ function LoginOrRegisterModal() {
                         </form>
                         {error && <p>{error}</p>}
                         {successMessage && <p>{successMessage}</p>}
-                        <p>Or try to <button onClick={() => setLoginOrRegister(prev => prev === "login" ? "register" : "login")}>{loginOrRegister === "login" ? "Register" : "Login"}</button></p>
+                        <p>Or try to <button onClick={() => {
+                            setLoginOrRegister(prev => prev === "login" ? "register" : "login")
+                            setError("");
+                            setSuccessMessage("");
+                        }}>{loginOrRegister === "login" ? "Register" : "Login"}</button></p>
                         <button type="button" onClick={() => onClose()}>Close</button>
 
                     </div>

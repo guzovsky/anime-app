@@ -5,7 +5,7 @@ import AnimeContext from "../../contexts/AnimeContext";
 import { HeartPlus, HeartMinus, ListPlus, ListCheck } from 'lucide-react';
 import AddAnimeToListsButtonDropDown from "../AddAnimeToListsButtonDropDown";
 
-function CarouselAnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true, id }) {
+function CarouselAnimeCard({ anime, isFavorite, onFavoriteToggle, id }) {
 
     const {
         setAnimeCardIsOpen,
@@ -49,12 +49,8 @@ function CarouselAnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton 
                 </div>
 
                 <div className="carousel-favorite-btn-container">
-                    {showAddButton ? (
-                        !isFavorite(anime) ? (
-                            <button onClick={() => onFavoriteToggle(anime)} className="carousel-add-btn"><HeartPlus /></button>
-                        ) : (
-                            <button onClick={() => onFavoriteToggle(anime)} className="carousel-remove-btn"><HeartMinus /></button>
-                        )
+                    {!isFavorite(anime) ? (
+                        <button onClick={() => onFavoriteToggle(anime)} className="carousel-add-btn"><HeartPlus /></button>
                     ) : (
                         <button onClick={() => onFavoriteToggle(anime)} className="carousel-remove-btn"><HeartMinus /></button>
                     )}

@@ -54,6 +54,7 @@ export function AnimeProvider({ children }) {
 
     const [hasSearched, setHasSearched] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [handleFavoriteIsLoading, setHandleFavoriteIsLoading] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [hasLoadedSidebarData, setHasLoadedSidebarData] = useState(false);
     const [sideBarAnimeIsLoading, setSideBarAnimeIsLoading] = useState(false);
@@ -94,7 +95,15 @@ export function AnimeProvider({ children }) {
     const isFavorite = (anime) => favorites.some((fav) => fav.mal_id === anime.mal_id);
 
     const handleAddToFavorites = async (anime) => {
-        if (!user) return;
+
+        if (handleFavoriteIsLoading) return;
+
+        if (!user) {
+            alert("You need to be logged in to add a favorite anime.");
+            return
+        };
+
+        setHandleFavoriteIsLoading(true);
 
         try {
             const res = await axios.put(`${API_URL}/users/favorites`, { anime }, {
@@ -103,11 +112,16 @@ export function AnimeProvider({ children }) {
             setFavorites(res.data.favorites);
         } catch (err) {
             console.error("Failed to update favorites", err);
+        } finally {
+            setHandleFavoriteIsLoading(false);
         }
     };
 
     useEffect(() => {
-        if (!user) return;
+        if (!user) {
+            setFavorites([]);
+            return;
+        }
 
         const fetchFavorites = async () => {
             try {
@@ -692,6 +706,9 @@ export function AnimeProvider({ children }) {
 
         user,
         setUser,
+
+        handleFavoriteIsLoading,
+        setHandleFavoriteIsLoading,
 
         // Functions
         removeDuplicates,

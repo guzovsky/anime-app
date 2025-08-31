@@ -70,7 +70,6 @@ const SideBarCategories = ({ title, animeToDisplay, statusFilter }) => {
                                     anime={anime}
                                     isFavorite={isFavorite}
                                     onFavoriteToggle={handleAddToFavorites}
-                                    showAddButton={true}
                                 />
                             ))}
                         </div>

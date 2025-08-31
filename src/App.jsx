@@ -8,6 +8,7 @@ import SeeMorePage from "./pages/SeeMorePage/SeeMorePage";
 import CustomListsPage from "./pages/CustomListsPage/CustomListsPage.jsx";
 import FullScreenList from "./pages/CustomListsPage/FullScreenList.jsx";
 import LoginOrRegisterModal from "./components/LoginOrRegisterModal/LoginOrRegisterModal.jsx";
+import MyProfilePage from "./pages/MyProfilePage/MyProfilePage.jsx";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/category/:categoryType" element={<SeeMorePage />} />
         <Route path="/custom-lists" element={<CustomListsPage />} />
         <Route path="/custom-lists/:listName" element={<FullScreenList />} />
+        <Route path="/myprofile" element={<MyProfilePage />} />
       </Routes>
     </>
   );

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { HeartPlus, HeartMinus, ListCheck, ListPlus } from 'lucide-react';
 import AddAnimeToListsButtonDropDown from "../AddAnimeToListsButtonDropDown";
 
-function SideBarAnimeCards({ anime, setIsSidebarOpen, isFavorite, onFavoriteToggle, showAddButton = true }) {
+function SideBarAnimeCards({ anime, setIsSidebarOpen, isFavorite, onFavoriteToggle }) {
     const { setAnimeCardIsOpen, setAddAnimeToListsButtonDropDownIsOpen, isAddedToAList, setCustomLists } = useContext(AnimeContext);
 
     const isSaved = isAddedToAList(anime)
@@ -22,13 +22,9 @@ function SideBarAnimeCards({ anime, setIsSidebarOpen, isFavorite, onFavoriteTogg
                 <h2 className="sidebar-anime-title">{anime.title}</h2>
 
                 <div className="sidebar-anime-btn-container">
-                    
-                    {showAddButton ? (
-                        !isFavorite(anime) ? (
-                            <button onClick={() => onFavoriteToggle(anime)} className="sidebar-add-btn"><HeartPlus size="21" /></button>
-                        ) : (
-                            <button onClick={() => onFavoriteToggle(anime)} className="sidebar-remove-btn"><HeartMinus size="21" /></button>
-                        )
+
+                    {!isFavorite(anime) ? (
+                        <button onClick={() => onFavoriteToggle(anime)} className="sidebar-add-btn"><HeartPlus size="21" /></button>
                     ) : (
                         <button onClick={() => onFavoriteToggle(anime)} className="sidebar-remove-btn"><HeartMinus size="21" /></button>
                     )}

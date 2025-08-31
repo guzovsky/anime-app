@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { HeartPlus, HeartMinus, ListPlus, ListCheck } from 'lucide-react';
 import AddAnimeToListsButtonDropDown from "./AddAnimeToListsButtonDropDown";
 
-function AnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true }) {
+function AnimeCard({ anime, isFavorite, onFavoriteToggle }) {
     const { setAnimeCardIsOpen, setAddAnimeToListsButtonDropDownIsOpen, isAddedToAList, } = useContext(AnimeContext);
 
     const isSaved = isAddedToAList(anime)
@@ -43,15 +43,13 @@ function AnimeCard({ anime, isFavorite, onFavoriteToggle, showAddButton = true }
                 </div>
 
                 <div className="favorite-btn-container">
-                    {showAddButton ? (
-                        !isFavorite(anime) ? (
-                            <button onClick={() => onFavoriteToggle(anime)} className="add-btn"><HeartPlus /></button>
-                        ) : (
-                            <button onClick={() => onFavoriteToggle(anime)} className="remove-btn"><HeartMinus /></button>
-                        )
+
+                    {!isFavorite(anime) ? (
+                        <button onClick={() => onFavoriteToggle(anime)} className="add-btn"><HeartPlus /></button>
                     ) : (
                         <button onClick={() => onFavoriteToggle(anime)} className="remove-btn"><HeartMinus /></button>
                     )}
+
                     <button
                         onClick={() => {
                             setAddAnimeToListsButtonDropDownIsOpen(prev =>

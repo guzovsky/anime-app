@@ -148,7 +148,6 @@ const Carousel = ({ header, animeList, animeListFailed, fetchFunction, animeIsLo
                                                     anime={anime}
                                                     isFavorite={isFavorite}
                                                     onFavoriteToggle={handleAddToFavorites}
-                                                    showAddButton={true}
                                                 />
                                             ))}
                                         </div>

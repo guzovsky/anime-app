@@ -6,8 +6,9 @@ import { removeAutoPlay } from '../components/utils/urlUtils';
 import { AnimeInfo, InfoList, RelationsList } from '../components/AnimeInfo';
 import { formatDate } from "../components/utils/dateUtils";
 import AnimeContext from "../contexts/AnimeContext";
-import { HeartPlus, HeartMinus, CircleX, } from 'lucide-react';
+import { HeartPlus, HeartMinus, CircleX, ListPlus, ListCheck } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import AddAnimeToListsButtonDropDown from "../components/AddAnimeToListsButtonDropDown";
 
 function AnimeInformation() {
     const navigate = useNavigate();
@@ -15,12 +16,22 @@ function AnimeInformation() {
     const {
         setAnimeCardIsOpen,
         handleAddToFavorites,
-        isFavorite
+        isFavorite,
+        isAddedToAList,
+        setAddAnimeToListsButtonDropDownIsOpen,
+        customLists,
     } = useContext(AnimeContext)
 
 
     const { id } = useParams();
     const [anime, setAnime] = useState(null);
+    const [isSaved, setIsSaved] = useState(false);
+
+    useEffect(() => {
+        if (anime) {
+            setIsSaved(isAddedToAList(anime));
+        }
+    }, [anime, customLists]);
 
     useEffect(() => {
         setAnimeCardIsOpen(id);
@@ -31,8 +42,10 @@ function AnimeInformation() {
             try {
                 const res = await axios.get(`https://api.jikan.moe/v4/anime/${id}/full`);
                 setAnime(res.data.data);
+                setIsSaved(isAddedToAList(res.data.data))
             } catch (error) {
                 console.error("Error fetching anime info:", error);
+                setIsSaved(false)
             }
         };
         fetchAnime();
@@ -49,12 +62,12 @@ function AnimeInformation() {
                 <p className="anime-info-title-en">English: {anime.title_english}</p>
             </div>
 
-            <button 
-            className="anime-info-close-btn"
-            onClick={() => {
-                setAnimeCardIsOpen(null)
-                navigate(-1)
-            }}><CircleX size={25}/></button>
+            <button
+                className="anime-info-close-btn"
+                onClick={() => {
+                    setAnimeCardIsOpen(null)
+                    navigate(-1)
+                }}><CircleX size={25} /></button>
 
             <div className="anime-info-main">
                 <div className="anime-info-image-container">
@@ -75,6 +88,22 @@ function AnimeInformation() {
                             <HeartPlus />
                         </button>
                     )}
+                </div>
+
+                <div className="anime-info-add-anime-to-lists-container">
+                    <button
+                        onClick={() => {
+                            setAddAnimeToListsButtonDropDownIsOpen(prev =>
+                                prev.id === anime.mal_id && prev.type === 'home'
+                                    ? { id: null, type: null }
+                                    : { id: anime.mal_id, type: 'home' }
+                            );
+                        }}
+                        className="add-to-lists-btn"
+                    >
+                        {isSaved ? <ListCheck size={29} /> : <ListPlus size={29} />}
+                    </button>
+                    <AddAnimeToListsButtonDropDown anime={anime} />
                 </div>
 
                 <div className="anime-info-details">

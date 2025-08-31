@@ -42,7 +42,6 @@ function Results() {
               anime={anime}
               isFavorite={isFavorite}
               onFavoriteToggle={handleAddToFavorites}
-              showAddButton={true}
             />
           ))}
         </div>

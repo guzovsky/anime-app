@@ -319,7 +319,6 @@ function CustomListsPageLists() {
                                             isEditingAnimeInList={isEditingAnimeInList}
                                             isFavorite={isFavorite}
                                             onFavoriteToggle={handleAddToFavorites}
-                                            showAddButton={true}
                                         />
                                     ) : null}
                                 </DragOverlay>,

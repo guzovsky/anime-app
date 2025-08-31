@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { HeartPlus, HeartMinus, ListPlus, ListCheck, CircleMinus } from 'lucide-react';
 import AddAnimeToListsButtonDropDown from "../../components/AddAnimeToListsButtonDropDown";
 
-function AnimeCardForCustomListsPage({ anime, isFavorite, onFavoriteToggle, showAddButton = true, listId, isEditingAnimeInList, setIsEditingAnimeInList, }) {
+function AnimeCardForCustomListsPage({ anime, isFavorite, onFavoriteToggle, listId, isEditingAnimeInList, setIsEditingAnimeInList, }) {
     const { setAnimeCardIsOpen, setAddAnimeToListsButtonDropDownIsOpen, isAddedToAList, setCustomLists, } = useContext(AnimeContext);
 
     const isSaved = isAddedToAList(anime)
@@ -51,22 +51,13 @@ function AnimeCardForCustomListsPage({ anime, isFavorite, onFavoriteToggle, show
                 <h2 className="custom-list-anime-container-anime-title">{anime.title}</h2>
 
                 <div className="custom-list-anime-container-favorite-btn-container">
-                    {showAddButton ? (
-                        !isFavorite(anime) ? (
-                            <button onClick={() => {
-                                onFavoriteToggle(anime)
-                                setIsEditingAnimeInList(null)
-                            }} className="custom-list-anime-container-add-btn">
-                                <HeartPlus />
-                            </button>
-                        ) : (
-                            <button onClick={() => {
-                                onFavoriteToggle(anime)
-                                setIsEditingAnimeInList(null)
-                            }} className="custom-list-anime-container-remove-btn">
-                                <HeartMinus />
-                            </button>
-                        )
+                    {!isFavorite(anime) ? (
+                        <button onClick={() => {
+                            onFavoriteToggle(anime)
+                            setIsEditingAnimeInList(null)
+                        }} className="custom-list-anime-container-add-btn">
+                            <HeartPlus />
+                        </button>
                     ) : (
                         <button onClick={() => {
                             onFavoriteToggle(anime)
